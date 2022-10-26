@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: ddd4b346e1d530a43b6bda02e3037ad1
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: WheelFL.000
+    100004: WheelFL.001
+    100006: WheelFL.002
+    100008: WheelFL.003
+    100010: WheelFL.004
+    100012: Tuningcar3
+    100014: WheelFL
+    100016: WheelFR
+    100018: WheelRL
+    100020: WheelRR
+    400000: //RootNode
+    400002: WheelFL.000
+    400004: WheelFL.001
+    400006: WheelFL.002
+    400008: WheelFL.003
+    400010: WheelFL.004
+    400012: Tuningcar3
+    400014: WheelFL
+    400016: WheelFR
+    400018: WheelRL
+    400020: WheelRR
+    2300000: WheelFL.000
+    2300002: WheelFL.001
+    2300004: WheelFL.002
+    2300006: WheelFL.003
+    2300008: WheelFL.004
+    2300010: Tuningcar3
+    2300012: WheelFL
+    2300014: WheelFR
+    2300016: WheelRL
+    2300018: WheelRR
+    3300000: WheelFL.000
+    3300002: WheelFL.001
+    3300004: WheelFL.002
+    3300006: WheelFL.003
+    3300008: WheelFL.004
+    3300010: Tuningcar3
+    3300012: WheelFL
+    3300014: WheelFR
+    3300016: WheelRL
+    3300018: WheelRR
+    4300000: WheelFL.004
+    4300002: WheelFL.002
+    4300004: WheelFL.001
+    4300006: WheelFL.000
+    4300008: WheelFL.003
+    4300010: WheelFR
+    4300012: WheelRR
+    4300014: WheelRL
+    4300016: WheelFL
+    4300018: Tuningcar3
+    9500000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chrome3
+    second: {fileID: 2100000, guid: 0c3ef9f8b3fbe574ab96b16026f6f9aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass3
+    second: {fileID: 2100000, guid: be04d5de8fdf8b548b63231fab3552e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tuningcar3_body
+    second: {fileID: 2100000, guid: 73e8b42d9f6a4b34f85cfaa7097cef8a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tuningcar3_bottom
+    second: {fileID: 2100000, guid: 571499c9644a359458ed08de217359d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tuningcar3_lights
+    second: {fileID: 2100000, guid: 5086629b6eff74249b7b84273257eeb2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tuningcar3_wheels
+    second: {fileID: 2100000, guid: 266a6db1bab28c54cb3c136b3839ff0a, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
