@@ -91,7 +91,7 @@ namespace _script
 
             if (control == 2)
             {
-                Vector3 movement = new Vector3(gamecontroller.hor, 0.0f, gamecontroller.vert);
+                Vector3 movement = new Vector3(gamecontroller.horizontalPlayerMovement, 0.0f, gamecontroller.verticalPlayerMovement);
                 GetComponent<Rigidbody>().velocity = movement * speed;
             }
 

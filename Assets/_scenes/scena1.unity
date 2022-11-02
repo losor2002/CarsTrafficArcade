@@ -3098,9 +3098,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scorePerScoreTime: 1
-  hazardcount: 1
   scoreTime: 1
-  startwait: 0.4
+  startWait: 0.4
   scorespawnacc: 30
   scorespawnacc1: 50
   spawnwait1: 0.6

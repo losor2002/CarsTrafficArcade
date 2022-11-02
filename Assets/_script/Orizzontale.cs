@@ -33,11 +33,11 @@ namespace _script
                 pointerID = data.pointerId;
                 if (a)
                 {
-                    gamecontroller.hor = 1;
+                    gamecontroller.horizontalPlayerMovement = 1;
                 }
                 else
                 {
-                    gamecontroller.hor = -1;
+                    gamecontroller.horizontalPlayerMovement = -1;
                 }
             }
         }
@@ -46,7 +46,7 @@ namespace _script
         {
             if (data.pointerId == pointerID)
             {
-                gamecontroller.hor = 0;
+                gamecontroller.horizontalPlayerMovement = 0;
                 touched = false;
             }
         }

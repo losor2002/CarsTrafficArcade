@@ -18,17 +18,22 @@ namespace _script
         public int score;
         public int scorePerScoreTime;
         public float scoreTime;
-        public float startwait;
-        public float scorespawnacc;
-        public float scorespawnacc1;
-        public float spawnwait1;
-        public float spawnwait2;
-        public float spawnwait3;
-        public float spawnwaitzombie1;
-        public float spawnwaitzombie2;
-        public float spawnwaitzombie3;
-        public float hor = 0;
-        public float vert = 0;
+        public float startWait;
+        
+        public int scoreSpawnAcceleration;
+        public int scoreSpawnAcceleration1;
+        
+        public float spawnWait;
+        public float spawnWait1;
+        public float spawnWait2;
+        
+        public float spawnWaitZombie;
+        public float spawnWaitZombie1;
+        public float spawnWaitZombie2;
+        
+        public float horizontalPlayerMovement;
+        public float verticalPlayerMovement;
+        
         private int kills;
         public bool gameover = false;
         public bool pause = false;
@@ -201,7 +206,7 @@ namespace _script
 
         IEnumerator SpawnWawes()
         {
-            yield return new WaitForSeconds(startwait);
+            yield return new WaitForSeconds(startWait);
             while (!gameover)
             {
                 GameObject hazard = hazards[Random.Range(0, hazards.Length)];
@@ -218,15 +223,15 @@ namespace _script
                 LspawnPosition = spawnPosition;
                 Quaternion spawnRotation = Quaternion.identity;
                 Instantiate(hazard, spawnPosition, spawnRotation);
-                if (score >= scorespawnacc && score < scorespawnacc1)
+                if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
                 {
-                    spawnwait1 = spawnwait2;
+                    spawnWait = spawnWait1;
                 }
-                if (score >= scorespawnacc1)
+                if (score >= scoreSpawnAcceleration1)
                 {
-                    spawnwait1 = spawnwait3;
+                    spawnWait = spawnWait2;
                 }
-                yield return new WaitForSeconds(spawnwait1);
+                yield return new WaitForSeconds(spawnWait);
             }
         }
 
@@ -242,7 +247,7 @@ namespace _script
 
         IEnumerator SpawnZombies()
         {
-            yield return new WaitForSeconds(startwait);
+            yield return new WaitForSeconds(startWait);
             while (!gameover)
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnvalueszombie.x, spawnvalueszombie.x), spawnvalueszombie.y, spawnvalueszombie.z);
@@ -253,15 +258,15 @@ namespace _script
                 LspawnPosition = spawnPosition;
                 Quaternion spawnRotation = Quaternion.identity;
                 Instantiate(zombieprefab, spawnPosition, spawnRotation);
-                if (score >= scorespawnacc && score < scorespawnacc1)
+                if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
                 {
-                    spawnwaitzombie1 = spawnwaitzombie2;
+                    spawnWaitZombie = spawnWaitZombie1;
                 }
-                if (score >= scorespawnacc1)
+                if (score >= scoreSpawnAcceleration1)
                 {
-                    spawnwaitzombie1 = spawnwaitzombie3;
+                    spawnWaitZombie = spawnWaitZombie2;
                 }
-                yield return new WaitForSeconds(spawnwaitzombie1);
+                yield return new WaitForSeconds(spawnWaitZombie);
             }
         }
 
