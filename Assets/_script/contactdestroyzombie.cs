@@ -1,32 +1,35 @@
 ﻿using UnityEngine;
 
-public class contactdestroyzombie : MonoBehaviour
+namespace _script
 {
-    public GameObject zombiecade;
-    private bool colpito;
-
-    private void Start()
+    public class contactdestroyzombie : MonoBehaviour
     {
-        colpito = false;
-    }
+        public GameObject zombiecade;
+        private bool colpito;
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("proiettile"))
+        private void Start()
         {
-            if (colpito)
-            {
-                Instantiate(zombiecade, transform.position, transform.rotation);
-                int k = PlayerPrefs.GetInt("kills", 0);
-                PlayerPrefs.SetInt("kills", k + 1);
-                Destroy(other.gameObject);
-                Destroy(gameObject);
-            }
+            colpito = false;
+        }
 
-            if (!colpito)
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("proiettile"))
             {
-                colpito = true;
-                Destroy(other.gameObject);
+                if (colpito)
+                {
+                    Instantiate(zombiecade, transform.position, transform.rotation);
+                    int k = PlayerPrefs.GetInt("kills", 0);
+                    PlayerPrefs.SetInt("kills", k + 1);
+                    Destroy(other.gameObject);
+                    Destroy(gameObject);
+                }
+
+                if (!colpito)
+                {
+                    colpito = true;
+                    Destroy(other.gameObject);
+                }
             }
         }
     }

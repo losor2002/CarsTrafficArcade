@@ -1,54 +1,57 @@
 ﻿using UnityEngine;
 
-public class moverveicoli : MonoBehaviour
+namespace _script
 {
-    public float speed;
-    public float speed1;
-    public float speed2;
-
-    private gamecontroller gc;
-
-    void Start()
+    public class moverveicoli : MonoBehaviour
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
-        GameObject GC = GameObject.FindGameObjectWithTag("GameController");
-        gc = GC.GetComponent<gamecontroller>();
-    }
+        public float speed;
+        public float speed1;
+        public float speed2;
 
-    private void Update()
-    {
-        if(gc.score >= 30 && gc.score < 50)
+        private GameController gc;
+
+        void Start()
         {
-            GetComponent<Rigidbody>().velocity = transform.forward * speed1;
-        }
-        if (gc.score >= 50)
-        {
-            GetComponent<Rigidbody>().velocity = transform.forward * speed2;
+            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            GameObject GC = GameObject.FindGameObjectWithTag("GameController");
+            gc = GC.GetComponent<GameController>();
         }
 
-        if(gc.gameover)
+        private void Update()
         {
-            int zombie = PlayerPrefs.GetInt("zombie");
-            if(zombie == 1)
+            if(gc.score >= 30 && gc.score < 50)
             {
-                if(this.CompareTag("pista") || this.CompareTag("zombieCade"))
-                {
-                    GetComponent<Rigidbody>().velocity = Vector3.zero;
-                }
-                else
-                {
-                    GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -1f);
-                }
+                GetComponent<Rigidbody>().velocity = transform.forward * speed1;
             }
-            else
+            if (gc.score >= 50)
             {
-                if (this.CompareTag("pista"))
+                GetComponent<Rigidbody>().velocity = transform.forward * speed2;
+            }
+
+            if(gc.gameover)
+            {
+                int zombie = PlayerPrefs.GetInt("zombie");
+                if(zombie == 1)
                 {
-                    GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    if(this.CompareTag("pista") || this.CompareTag("zombieCade"))
+                    {
+                        GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    }
+                    else
+                    {
+                        GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -1f);
+                    }
                 }
                 else
                 {
-                    GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 10f);
+                    if (this.CompareTag("pista"))
+                    {
+                        GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    }
+                    else
+                    {
+                        GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 10f);
+                    }
                 }
             }
         }

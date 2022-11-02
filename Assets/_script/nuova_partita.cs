@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 
-public class nuova_partita : MonoBehaviour
+namespace _script
 {
-    public int NewGame = 0;
-
-    private void Awake()
+    public class nuova_partita : MonoBehaviour
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("NuovaPartita");
+        public int NewGame = 0;
 
-        if (objs.Length > 1)
+        private void Awake()
         {
-            Destroy(gameObject);
-        }
+            GameObject[] objs = GameObject.FindGameObjectsWithTag("NuovaPartita");
 
-        DontDestroyOnLoad(gameObject);
+            if (objs.Length > 1)
+            {
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }

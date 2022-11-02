@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44396073, g: 0.49309587, b: 0.57219714, a: 1}
+  m_IndirectSpecularColor: {r: 0.44651407, g: 0.49634254, b: 0.5747789, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4948,7 +4948,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intensity: 0.4
-  shadowStrenght: 0.5
+  shadowStrength: 0.5
+  key: zombie
 --- !u!114 &1956163367
 MonoBehaviour:
   m_ObjectHideFlags: 0

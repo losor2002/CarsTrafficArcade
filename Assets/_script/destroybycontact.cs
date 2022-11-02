@@ -1,38 +1,41 @@
 ﻿using UnityEngine;
 
-public class destroybycontact : MonoBehaviour
+namespace _script
 {
-    private gamecontroller gameController;
-    public GameObject explosion;
-    private int zombie;
-    public GameObject zombiecade;
-
-    void Start ()
+    public class destroybycontact : MonoBehaviour
     {
-        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
-        gameController = gameControllerObject.GetComponent<gamecontroller>();
-        zombie = PlayerPrefs.GetInt("zombie");
-    }
+        private GameController gameController;
+        public GameObject explosion;
+        private int zombie;
+        public GameObject zombiecade;
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        void Start ()
         {
-            if (zombie == 0)
+            GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+            gameController = gameControllerObject.GetComponent<GameController>();
+            zombie = PlayerPrefs.GetInt("zombie");
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
             {
-                Vector3 pos1 = other.transform.position + new Vector3(0f, 0.1f, 0f);
-                Instantiate(explosion, pos1, other.transform.rotation);
-                Destroy(other.gameObject);
+                if (zombie == 0)
+                {
+                    Vector3 pos1 = other.transform.position + new Vector3(0f, 0.1f, 0f);
+                    Instantiate(explosion, pos1, other.transform.rotation);
+                    Destroy(other.gameObject);
+                }
+                else
+                {
+                    Instantiate(zombiecade, other.transform.position, other.transform.rotation);
+                    Destroy(other.gameObject);
+                }
+                Vector3 pos = transform.position + new Vector3(0f, 0.1f, 0f);
+                Instantiate(explosion, pos, transform.rotation);
+                gameController.GameOver();
+                Destroy(gameObject);
             }
-            else
-            {
-                Instantiate(zombiecade, other.transform.position, other.transform.rotation);
-                Destroy(other.gameObject);
-            }
-            Vector3 pos = transform.position + new Vector3(0f, 0.1f, 0f);
-            Instantiate(explosion, pos, transform.rotation);
-            gameController.GameOver();
-            Destroy(gameObject);
         }
     }
 }

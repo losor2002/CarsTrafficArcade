@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class mover : MonoBehaviour
+namespace _script
 {
-    public float speed;
-
-    void Start()
+    public class mover : MonoBehaviour
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        public float speed;
+
+        void Start()
+        {
+            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        }
     }
 }

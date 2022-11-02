@@ -1,40 +1,43 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SimpleTouchAreaButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+namespace _script
 {
-
-    private bool touched;
-    private int pointerID;
-    private bool canFire;
-
-    void Awake()
+    public class SimpleTouchAreaButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        touched = false;
-    }
 
-    public void OnPointerDown(PointerEventData data)
-    {
-        if (!touched)
+        private bool touched;
+        private int pointerID;
+        private bool canFire;
+
+        void Awake()
         {
-            touched = true;
-            pointerID = data.pointerId;
-            canFire = true;
-        }
-    }
-
-    public void OnPointerUp(PointerEventData data)
-    {
-        if (data.pointerId == pointerID)
-        {
-            canFire = false;
             touched = false;
         }
-    }
 
-    public bool CanFire()
-    {
-        return canFire;
-    }
+        public void OnPointerDown(PointerEventData data)
+        {
+            if (!touched)
+            {
+                touched = true;
+                pointerID = data.pointerId;
+                canFire = true;
+            }
+        }
 
+        public void OnPointerUp(PointerEventData data)
+        {
+            if (data.pointerId == pointerID)
+            {
+                canFire = false;
+                touched = false;
+            }
+        }
+
+        public bool CanFire()
+        {
+            return canFire;
+        }
+
+    }
 }

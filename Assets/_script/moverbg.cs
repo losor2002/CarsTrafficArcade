@@ -1,31 +1,34 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class moverbg : MonoBehaviour
+namespace _script
 {
-    public float speed;
-
-    private gamecontroller gc;
-
-    private void Start()
+    public class moverbg : MonoBehaviour
     {
-        GameObject GC = GameObject.FindGameObjectWithTag("GameController");
-        gc = GC.GetComponent<gamecontroller>();
-    }
+        public float speed;
 
-    private void Update()
-    {
-        if (gc.score >= 50)
+        private GameController gc;
+
+        private void Start()
         {
-            StartCoroutine(Destroy());
+            GameObject GC = GameObject.FindGameObjectWithTag("GameController");
+            gc = GC.GetComponent<GameController>();
         }
-    }
 
-    IEnumerator Destroy()
-    {
-        yield return new WaitForSeconds(1.35f);
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
-        yield return new WaitForSeconds(2.25f);
-        Destroy(gameObject);
+        private void Update()
+        {
+            if (gc.score >= 50)
+            {
+                StartCoroutine(Destroy());
+            }
+        }
+
+        IEnumerator Destroy()
+        {
+            yield return new WaitForSeconds(1.35f);
+            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            yield return new WaitForSeconds(2.25f);
+            Destroy(gameObject);
+        }
     }
 }

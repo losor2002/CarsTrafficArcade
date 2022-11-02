@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 
-public class Bonus_sfioramento : MonoBehaviour
+namespace _script
 {
-    private gamecontroller gameController;
-    private bool a;
-
-    private void Start()
+    public class Bonus_sfioramento : MonoBehaviour
     {
-        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
-        gameController = gameControllerObject.GetComponent<gamecontroller>();
-        a = false;
-    }
+        private GameController gameController;
+        private bool a;
 
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.CompareTag("Player"))
+        private void Start()
         {
-            if (!a)
+            GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+            gameController = gameControllerObject.GetComponent<GameController>();
+            a = false;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if(other.CompareTag("Player"))
             {
-                gameController.Sfioramento();
-                a = true;
+                if (!a)
+                {
+                    gameController.Sfioramento();
+                    a = true;
+                }
             }
         }
     }

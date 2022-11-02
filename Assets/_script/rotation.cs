@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class rotation : MonoBehaviour
+namespace _script
 {
-
-    private void Start()
+    public class rotation : MonoBehaviour
     {
-        Quaternion spawn = Quaternion.Euler(-90f, -180f, 0f);
-        transform.rotation = spawn;
+
+        private void Start()
+        {
+            Quaternion spawn = Quaternion.Euler(-90f, -180f, 0f);
+            transform.rotation = spawn;
+        }
     }
 }

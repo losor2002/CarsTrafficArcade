@@ -1,51 +1,54 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Verticale : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+namespace _script
 {
-    private bool touched;
-    private int pointerID;
-    private bool a;
-    private gamecontroller gamecontroller;
-
-    void Start()
+    public class Verticale : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        GameObject gc = GameObject.FindGameObjectWithTag("GameController");
-        gamecontroller = gc.GetComponent<gamecontroller>();
-        touched = false;
-        if(this.CompareTag("su"))
-        {
-            a = true;
-        }
-        else
-        {
-            a = false;
-        }
-    }
+        private bool touched;
+        private int pointerID;
+        private bool a;
+        private GameController gamecontroller;
 
-    public void OnPointerDown(PointerEventData data)
-    {
-        if (!touched)
+        void Start()
         {
-            touched = true;
-            pointerID = data.pointerId;
-            if(a)
+            GameObject gc = GameObject.FindGameObjectWithTag("GameController");
+            gamecontroller = gc.GetComponent<GameController>();
+            touched = false;
+            if(this.CompareTag("su"))
             {
-                gamecontroller.vert = 1;
+                a = true;
             }
             else
             {
-                gamecontroller.vert = -1;
+                a = false;
             }
         }
-    }
 
-    public void OnPointerUp(PointerEventData data)
-    {
-        if (data.pointerId == pointerID)
+        public void OnPointerDown(PointerEventData data)
         {
-            gamecontroller.vert = 0;
-            touched = false;
+            if (!touched)
+            {
+                touched = true;
+                pointerID = data.pointerId;
+                if(a)
+                {
+                    gamecontroller.vert = 1;
+                }
+                else
+                {
+                    gamecontroller.vert = -1;
+                }
+            }
+        }
+
+        public void OnPointerUp(PointerEventData data)
+        {
+            if (data.pointerId == pointerID)
+            {
+                gamecontroller.vert = 0;
+                touched = false;
+            }
         }
     }
 }
