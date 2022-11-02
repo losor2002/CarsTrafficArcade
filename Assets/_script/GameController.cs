@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _script
@@ -10,14 +11,13 @@ namespace _script
         private AudioSource activeAudio;
         private AudioSource zombieRoar;
         private AudioSource zombieVerse;
-
-        private int freccest;
-        private int co;
+        
+        private int controlSystem;
         private int zombie;
-        public int score = 0;
-        public int scorevalue;
-        public int hazardcount;
-        public float scoretime;
+        
+        public int score;
+        public int scorePerScoreTime;
+        public float scoreTime;
         public float startwait;
         public float scorespawnacc;
         public float scorespawnacc1;
@@ -68,9 +68,9 @@ namespace _script
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
         
             avvisobl = false;
-            freccest = PlayerPrefs.GetInt("frecce", 2);
-            co = PlayerPrefs.GetInt("control", 2);
-            if (co == 0)
+            int arrows = PlayerPrefs.GetInt("frecce", 2);
+            controlSystem = PlayerPrefs.GetInt("control", 2);
+            if (controlSystem == 0)
             {
                 int t = PlayerPrefs.GetInt("tutorial1", 0);
                 if (t == 0)
@@ -79,7 +79,7 @@ namespace _script
                     PlayerPrefs.SetInt("tutorial1", 1);
                 }
             }
-            else if (co == 1)
+            else if (controlSystem == 1)
             {
                 int t = PlayerPrefs.GetInt("tutorial2", 0);
                 if (t == 0)
@@ -88,17 +88,17 @@ namespace _script
                     PlayerPrefs.SetInt("tutorial2", 1);
                 }
             }
-            else if (co == 2)
+            else if (controlSystem == 2)
             {
-                if(freccest == 0)
+                if(arrows == 0)
                 {
                     freccedestra.SetActive(true);
                 }
-                else if(freccest == 1)
+                else if(arrows == 1)
                 {
                     freccesinistra.SetActive(true);
                 }
-                else if(freccest == 2)
+                else if(arrows == 2)
                 {
                     freccecentro.SetActive(true);
                 }
@@ -204,32 +204,29 @@ namespace _script
             yield return new WaitForSeconds(startwait);
             while (!gameover)
             {
-                for (int i = 0; i < hazardcount; i++)
+                GameObject hazard = hazards[Random.Range(0, hazards.Length)];
+                Vector3 spawnPosition = spawnvalues[Random.Range(0, spawnvalues.Length)];
+                while(LspawnPosition == spawnPosition)
                 {
-                    GameObject hazard = hazards[Random.Range(0, hazards.Length)];
-                    Vector3 spawnPosition = spawnvalues[Random.Range(0, spawnvalues.Length)];
-                    while(LspawnPosition == spawnPosition)
-                    {
-                        spawnPosition = spawnvalues[Random.Range(0, spawnvalues.Length)];
-                    }
-                    while (Lhazard == hazard)
-                    {
-                        hazard = hazards[Random.Range(0, hazards.Length)];
-                    }
-                    Lhazard = hazard;
-                    LspawnPosition = spawnPosition;
-                    Quaternion spawnRotation = Quaternion.identity;
-                    Instantiate(hazard, spawnPosition, spawnRotation);
-                    if (score >= scorespawnacc && score < scorespawnacc1)
-                    {
-                        spawnwait1 = spawnwait2;
-                    }
-                    if (score >= scorespawnacc1)
-                    {
-                        spawnwait1 = spawnwait3;
-                    }
-                    yield return new WaitForSeconds(spawnwait1);
+                    spawnPosition = spawnvalues[Random.Range(0, spawnvalues.Length)];
                 }
+                while (Lhazard == hazard)
+                {
+                    hazard = hazards[Random.Range(0, hazards.Length)];
+                }
+                Lhazard = hazard;
+                LspawnPosition = spawnPosition;
+                Quaternion spawnRotation = Quaternion.identity;
+                Instantiate(hazard, spawnPosition, spawnRotation);
+                if (score >= scorespawnacc && score < scorespawnacc1)
+                {
+                    spawnwait1 = spawnwait2;
+                }
+                if (score >= scorespawnacc1)
+                {
+                    spawnwait1 = spawnwait3;
+                }
+                yield return new WaitForSeconds(spawnwait1);
             }
         }
 
@@ -248,37 +245,34 @@ namespace _script
             yield return new WaitForSeconds(startwait);
             while (!gameover)
             {
-                for (int i = 0; i < hazardcount; i++)
+                Vector3 spawnPosition = new Vector3(Random.Range(-spawnvalueszombie.x, spawnvalueszombie.x), spawnvalueszombie.y, spawnvalueszombie.z);
+                while (LspawnPosition == spawnPosition)
                 {
-                    Vector3 spawnPosition = new Vector3(Random.Range(-spawnvalueszombie.x, spawnvalueszombie.x), spawnvalueszombie.y, spawnvalueszombie.z);
-                    while (LspawnPosition == spawnPosition)
-                    {
-                        spawnPosition = new Vector3(Random.Range(-spawnvalueszombie.x, spawnvalueszombie.x), spawnvalueszombie.y, spawnvalueszombie.z);
-                    }
-                    LspawnPosition = spawnPosition;
-                    Quaternion spawnRotation = Quaternion.identity;
-                    Instantiate(zombieprefab, spawnPosition, spawnRotation);
-                    if (score >= scorespawnacc && score < scorespawnacc1)
-                    {
-                        spawnwaitzombie1 = spawnwaitzombie2;
-                    }
-                    if (score >= scorespawnacc1)
-                    {
-                        spawnwaitzombie1 = spawnwaitzombie3;
-                    }
-                    yield return new WaitForSeconds(spawnwaitzombie1);
+                    spawnPosition = new Vector3(Random.Range(-spawnvalueszombie.x, spawnvalueszombie.x), spawnvalueszombie.y, spawnvalueszombie.z);
                 }
+                LspawnPosition = spawnPosition;
+                Quaternion spawnRotation = Quaternion.identity;
+                Instantiate(zombieprefab, spawnPosition, spawnRotation);
+                if (score >= scorespawnacc && score < scorespawnacc1)
+                {
+                    spawnwaitzombie1 = spawnwaitzombie2;
+                }
+                if (score >= scorespawnacc1)
+                {
+                    spawnwaitzombie1 = spawnwaitzombie3;
+                }
+                yield return new WaitForSeconds(spawnwaitzombie1);
             }
         }
 
         IEnumerator score1()
         {
-            yield return new WaitForSeconds(scoretime);
+            yield return new WaitForSeconds(scoreTime);
             while (!gameover)
             {
-                score += scorevalue;
+                score += scorePerScoreTime;
                 scoretext.text = "Score: " + score;
-                yield return new WaitForSeconds(scoretime);
+                yield return new WaitForSeconds(scoreTime);
             }
         }
 
@@ -353,13 +347,13 @@ namespace _script
             {
                 yield return new WaitForEndOfFrame();
             }
-            if (co == 0)
+            if (controlSystem == 0)
             {
                 tutorialtx.text = "Tilt the phone to move the car";
                 yield return new WaitForSeconds(5f);
                 tutorialtx.text = "";
             }
-            if (co == 1)
+            if (controlSystem == 1)
             {
                 tutorialtx.text = "Drag the finger to move the car";
                 yield return new WaitForSeconds(5f);
@@ -408,15 +402,15 @@ namespace _script
             frecce.SetActive(false);
             pausebutt.SetActive(false);
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
-            if (co == 0)
+            if (controlSystem == 0)
             {
                 control = "ACCELEROMETER";
             }
-            else if (co == 1)
+            else if (controlSystem == 1)
             {
                 control = "FINGER DRAG";
             }
-            else if (co == 2)
+            else if (controlSystem == 2)
             {
                 control = "DIRECTIONAL ARROWS";
             }
