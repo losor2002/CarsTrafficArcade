@@ -13,66 +13,98 @@ namespace _script
         private AudioSource zombieVerse;
         
         private int controlSystem;
-        private int zombie;
+        private int zombieMode;
         
+        private int kills;
         public int score;
         public int scorePerScoreTime;
         public float scoreTime;
         public float startWait;
         
+        [FormerlySerializedAs("scorespawnacc")]
         public int scoreSpawnAcceleration;
+        [FormerlySerializedAs("scorespawnacc1")]
         public int scoreSpawnAcceleration1;
         
+        [FormerlySerializedAs("spawnwait1")]
         public float spawnWait;
+        [FormerlySerializedAs("spawnwait2")]
         public float spawnWait1;
+        [FormerlySerializedAs("spawnwait3")]
         public float spawnWait2;
         
+        [FormerlySerializedAs("spawnwaitzombie1")]
         public float spawnWaitZombie;
+        [FormerlySerializedAs("spawnwaitzombie2")]
         public float spawnWaitZombie1;
+        [FormerlySerializedAs("spawnwaitzombie3")]
         public float spawnWaitZombie2;
         
         public float horizontalPlayerMovement;
         public float verticalPlayerMovement;
         
-        private int kills;
-        public bool gameover = false;
-        public bool pause = false;
-        private bool avvisobl;
+        public bool gameOver;
+        public bool pause;
+        
+        private bool alertBool;
 
-        public GameObject avviso;
-        public GameObject frecce;
-        public GameObject freccedestra;
-        public GameObject freccesinistra;
-        public GameObject freccecentro;
-        public GameObject volumeButt;
-        public GameObject mutoButt;
-        public GameObject resumebutt;
-        public GameObject menubutt;
-        public GameObject pausebutt;
-        public GameObject explosionE;
+        [FormerlySerializedAs("avviso")]
+        public GameObject alert;
+        [FormerlySerializedAs("frecce")]
+        public GameObject controlArrows;
+        [FormerlySerializedAs("freccedestra")]
+        public GameObject controlArrowsRight;
+        [FormerlySerializedAs("freccesinistra")]
+        public GameObject controlArrowsLeft;
+        [FormerlySerializedAs("freccecentro")]
+        public GameObject controlArrowsCenter;
+        [FormerlySerializedAs("volumeButt")]
+        public GameObject volumeButton;
+        [FormerlySerializedAs("mutoButt")]
+        public GameObject muteButton;
+        [FormerlySerializedAs("resumebutt")]
+        public GameObject resumeButton;
+        [FormerlySerializedAs("menubutt")]
+        public GameObject menuButton;
+        [FormerlySerializedAs("pausebutt")]
+        public GameObject pauseButton;
+        
         public GameObject[] hazards;
-        public Vector3[] spawnvalues;
-        public Vector3 spawnvalueszombie;
-        public GameObject[] cars;
-        public GameObject zombieprefab;
-        public Vector3[] carSpawn;
-        private Vector3 LspawnPosition;
-        private GameObject Lhazard;
+        [FormerlySerializedAs("spawnvalues")]
+        public Vector3[] hazardsSpawnPositions;
+        
+        private GameObject lastHazard;
+        private Vector3 lastSpawnPosition;
+        
+        [FormerlySerializedAs("zombieprefab")]
+        public GameObject zombie;
+        [FormerlySerializedAs("spawnvalueszombie")]
+        public Vector3 zombieSpawnPosition;
+        
+        [FormerlySerializedAs("cars")]
+        public GameObject[] playerCars;
+        [FormerlySerializedAs("carSpawn")]
+        public Vector3[] playerCarsSpawnPositions;
 
-        public Text scoretext;
-        public Text gameovertext;
-        public Text tutorialtx;
-        public Text tutorialtxz;
-        public Text Killtx;
-        public Text sfiorare;
-        public Text avvisotx;
-        private string control;
+        [FormerlySerializedAs("scoretext")]
+        public Text scoreText;
+        [FormerlySerializedAs("gameovertext")]
+        public Text gameOverText;
+        [FormerlySerializedAs("tutorialtx")]
+        public Text tutorialText;
+        [FormerlySerializedAs("tutorialtxz")]
+        public Text tutorialTextZombieMode;
+        [FormerlySerializedAs("Killtx")]
+        public Text killsText;
+        [FormerlySerializedAs("sfiorare")]
+        public Text touchedText;
+        [FormerlySerializedAs("avvisotx")]
+        public Text alertText;
 
         private void Start()
         {
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
-        
-            avvisobl = false;
+            
             int arrows = PlayerPrefs.GetInt("frecce", 2);
             controlSystem = PlayerPrefs.GetInt("control", 2);
             if (controlSystem == 0)
@@ -97,20 +129,20 @@ namespace _script
             {
                 if(arrows == 0)
                 {
-                    freccedestra.SetActive(true);
+                    controlArrowsRight.SetActive(true);
                 }
                 else if(arrows == 1)
                 {
-                    freccesinistra.SetActive(true);
+                    controlArrowsLeft.SetActive(true);
                 }
                 else if(arrows == 2)
                 {
-                    freccecentro.SetActive(true);
+                    controlArrowsCenter.SetActive(true);
                 }
             }
             int c = PlayerPrefs.GetInt("car", 0);
-            zombie = PlayerPrefs.GetInt("zombie");
-            if (zombie == 1)
+            zombieMode = PlayerPrefs.GetInt("zombie");
+            if (zombieMode == 1)
             {
                 c = 5;
                 int tz = PlayerPrefs.GetInt("tutorialz", 0);
@@ -120,8 +152,8 @@ namespace _script
                     PlayerPrefs.SetInt("tutorialz", 1);
                 }
             }
-            GameObject car = cars[c];
-            Vector3 spawnPosition = carSpawn[c];
+            GameObject car = playerCars[c];
+            Vector3 spawnPosition = playerCarsSpawnPositions[c];
             Quaternion spawnRotation = Quaternion.identity;
             Instantiate(car, spawnPosition, spawnRotation);
             AudioSource[] sounds = GetComponents<AudioSource>();
@@ -129,7 +161,7 @@ namespace _script
             AudioSource zombieAudio = sounds[1];
             zombieRoar = sounds[2];
             zombieVerse = sounds[3];
-            if (zombie == 0)
+            if (zombieMode == 0)
             {
                 defaultAudio.Play();
                 activeAudio = defaultAudio;
@@ -140,11 +172,11 @@ namespace _script
                 activeAudio = zombieAudio;
             }
             Time.timeScale = 1.0f;
-            scoretext.text = "Score: " + score;
-            Killtx.text = "";
+            scoreText.text = "Score: " + score;
+            killsText.text = "";
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             StartCoroutine(score1());
-            if (zombie == 0)
+            if (zombieMode == 0)
             {
                 StartCoroutine(SpawnWawes());
             }
@@ -161,13 +193,13 @@ namespace _script
             }
             else
             {
-                avvisobl = true;
+                alertBool = true;
             }
         }
 
         private void Update()
         {
-            if (!gameover)
+            if (!gameOver)
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
@@ -175,10 +207,10 @@ namespace _script
                 }
             }
 
-            if (zombie == 1)
+            if (zombieMode == 1)
             {
                 kills = PlayerPrefs.GetInt("kills", 0);
-                Killtx.text = "Kills: " + kills;
+                killsText.text = "Kills: " + kills;
             }
 
             if (pause)
@@ -187,40 +219,40 @@ namespace _script
                 if (audst == 1)
                 {
                     AudioListener.volume = 1.0f;
-                    volumeButt.SetActive(true);
-                    mutoButt.SetActive(false);
+                    volumeButton.SetActive(true);
+                    muteButton.SetActive(false);
                 }
                 else
                 {
                     AudioListener.volume = 0.0f;
-                    volumeButt.SetActive(false);
-                    mutoButt.SetActive(true);
+                    volumeButton.SetActive(false);
+                    muteButton.SetActive(true);
                 }
             }
             else
             {
-                volumeButt.SetActive(false);
-                mutoButt.SetActive(false);
+                volumeButton.SetActive(false);
+                muteButton.SetActive(false);
             }
         }
 
         IEnumerator SpawnWawes()
         {
             yield return new WaitForSeconds(startWait);
-            while (!gameover)
+            while (!gameOver)
             {
                 GameObject hazard = hazards[Random.Range(0, hazards.Length)];
-                Vector3 spawnPosition = spawnvalues[Random.Range(0, spawnvalues.Length)];
-                while(LspawnPosition == spawnPosition)
+                Vector3 spawnPosition = hazardsSpawnPositions[Random.Range(0, hazardsSpawnPositions.Length)];
+                while(lastSpawnPosition == spawnPosition)
                 {
-                    spawnPosition = spawnvalues[Random.Range(0, spawnvalues.Length)];
+                    spawnPosition = hazardsSpawnPositions[Random.Range(0, hazardsSpawnPositions.Length)];
                 }
-                while (Lhazard == hazard)
+                while (lastHazard == hazard)
                 {
                     hazard = hazards[Random.Range(0, hazards.Length)];
                 }
-                Lhazard = hazard;
-                LspawnPosition = spawnPosition;
+                lastHazard = hazard;
+                lastSpawnPosition = spawnPosition;
                 Quaternion spawnRotation = Quaternion.identity;
                 Instantiate(hazard, spawnPosition, spawnRotation);
                 if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
@@ -237,7 +269,7 @@ namespace _script
 
         IEnumerator VersoZombie()
         {
-            while (!gameover)
+            while (!gameOver)
             {
                 float a = Random.Range(7.5f, 10f);
                 yield return new WaitForSeconds(a);
@@ -248,16 +280,16 @@ namespace _script
         IEnumerator SpawnZombies()
         {
             yield return new WaitForSeconds(startWait);
-            while (!gameover)
+            while (!gameOver)
             {
-                Vector3 spawnPosition = new Vector3(Random.Range(-spawnvalueszombie.x, spawnvalueszombie.x), spawnvalueszombie.y, spawnvalueszombie.z);
-                while (LspawnPosition == spawnPosition)
+                Vector3 spawnPosition = new Vector3(Random.Range(-zombieSpawnPosition.x, zombieSpawnPosition.x), zombieSpawnPosition.y, zombieSpawnPosition.z);
+                while (lastSpawnPosition == spawnPosition)
                 {
-                    spawnPosition = new Vector3(Random.Range(-spawnvalueszombie.x, spawnvalueszombie.x), spawnvalueszombie.y, spawnvalueszombie.z);
+                    spawnPosition = new Vector3(Random.Range(-zombieSpawnPosition.x, zombieSpawnPosition.x), zombieSpawnPosition.y, zombieSpawnPosition.z);
                 }
-                LspawnPosition = spawnPosition;
+                lastSpawnPosition = spawnPosition;
                 Quaternion spawnRotation = Quaternion.identity;
-                Instantiate(zombieprefab, spawnPosition, spawnRotation);
+                Instantiate(zombie, spawnPosition, spawnRotation);
                 if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
                 {
                     spawnWaitZombie = spawnWaitZombie1;
@@ -273,19 +305,19 @@ namespace _script
         IEnumerator score1()
         {
             yield return new WaitForSeconds(scoreTime);
-            while (!gameover)
+            while (!gameOver)
             {
                 score += scorePerScoreTime;
-                scoretext.text = "Score: " + score;
+                scoreText.text = "Score: " + score;
                 yield return new WaitForSeconds(scoreTime);
             }
         }
 
         public void GameOver()
         {
-            gameovertext.text = "Game Over";
-            gameover = true;
-            if (zombie == 1)
+            gameOverText.text = "Game Over";
+            gameOver = true;
+            if (zombieMode == 1)
             {
                 zombieRoar.Play();
             }
@@ -294,8 +326,8 @@ namespace _script
 
         IEnumerator finaldestroy()
         {
-            pausebutt.SetActive(false);
-            frecce.SetActive(false);
+            pauseButton.SetActive(false);
+            controlArrows.SetActive(false);
             yield return new WaitForSeconds(1.4f);
             Time.timeScale = 0.0f;
             activeAudio.Stop();
@@ -319,24 +351,24 @@ namespace _script
         public void pausa()
         {
             pause = true;
-            frecce.SetActive(false);
+            controlArrows.SetActive(false);
             Time.timeScale = 0.0f;
             activeAudio.Pause();
-            pausebutt.SetActive(false);
-            resumebutt.SetActive(true);
-            menubutt.SetActive(true);
+            pauseButton.SetActive(false);
+            resumeButton.SetActive(true);
+            menuButton.SetActive(true);
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
         }
 
         public void riprendi()
         {
             pause = false;
-            frecce.SetActive(true);
+            controlArrows.SetActive(true);
             Time.timeScale = 1.0f;
             activeAudio.Play();
-            pausebutt.SetActive(true);
-            resumebutt.SetActive(false);
-            menubutt.SetActive(false);
+            pauseButton.SetActive(true);
+            resumeButton.SetActive(false);
+            menuButton.SetActive(false);
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
 
@@ -348,46 +380,46 @@ namespace _script
 
         IEnumerator Tutorial()
         {
-            while (!avvisobl)
+            while (!alertBool)
             {
                 yield return new WaitForEndOfFrame();
             }
             if (controlSystem == 0)
             {
-                tutorialtx.text = "Tilt the phone to move the car";
+                tutorialText.text = "Tilt the phone to move the car";
                 yield return new WaitForSeconds(5f);
-                tutorialtx.text = "";
+                tutorialText.text = "";
             }
             if (controlSystem == 1)
             {
-                tutorialtx.text = "Drag the finger to move the car";
+                tutorialText.text = "Drag the finger to move the car";
                 yield return new WaitForSeconds(5f);
-                tutorialtx.text = "";
+                tutorialText.text = "";
             }
         }
 
         IEnumerator Tutorialz()
         {
-            while (!avvisobl)
+            while (!alertBool)
             {
                 yield return new WaitForEndOfFrame();
             }
-            tutorialtxz.text = "Touch the screen to shoot";
+            tutorialTextZombieMode.text = "Touch the screen to shoot";
             yield return new WaitForSeconds(5f);
-            tutorialtxz.text = "";
+            tutorialTextZombieMode.text = "";
         }
 
         public void Sfioramento()
         {
             score += 3;
-            sfiorare.text = "TOUCHED +3";
+            touchedText.text = "TOUCHED +3";
             StartCoroutine(Sfioramento1());
         }
 
         IEnumerator Sfioramento1()
         { 
             yield return new WaitForSecondsRealtime(1f);
-            sfiorare.text = "";
+            touchedText.text = "";
         }
 
         public void Volume()
@@ -404,9 +436,10 @@ namespace _script
         {
             Time.timeScale = 0.0f;
             activeAudio.Pause();
-            frecce.SetActive(false);
-            pausebutt.SetActive(false);
+            controlArrows.SetActive(false);
+            pauseButton.SetActive(false);
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
+            string control = null;
             if (controlSystem == 0)
             {
                 control = "ACCELEROMETER";
@@ -419,19 +452,19 @@ namespace _script
             {
                 control = "DIRECTIONAL ARROWS";
             }
-            avvisotx.text = "The control system is \n" + control + "\n you can change it \n in the OPTIONS";
-            avviso.SetActive(true);
+            alertText.text = "The control system is \n" + control + "\n you can change it \n in the OPTIONS";
+            alert.SetActive(true);
         }
 
         public void Avviso2()
         {
-            avviso.SetActive(false);
+            alert.SetActive(false);
             Time.timeScale = 1.0f;
             activeAudio.Play();
-            frecce.SetActive(true);
-            pausebutt.SetActive(true);
+            controlArrows.SetActive(true);
+            pauseButton.SetActive(true);
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            avvisobl = true;
+            alertBool = true;
         }
     }
 }

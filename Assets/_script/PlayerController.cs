@@ -66,7 +66,7 @@ namespace _script
                 }
             }
 
-            if (gamecontroller.gameover)
+            if (gamecontroller.gameOver)
             {
                 Destroy(gameObject);
             }

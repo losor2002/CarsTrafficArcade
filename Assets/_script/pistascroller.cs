@@ -34,7 +34,7 @@ namespace _script
 
         IEnumerator frequenza()
         {
-            while (!gamecontroller.gameover)
+            while (!gamecontroller.gameOver)
             {
                 Quaternion rotation = Quaternion.Euler(1.825f, 0.0f, 2.157f);
                 Instantiate(pista, spawn, rotation);

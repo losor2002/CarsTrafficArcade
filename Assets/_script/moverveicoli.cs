@@ -28,7 +28,7 @@ namespace _script
                 GetComponent<Rigidbody>().velocity = transform.forward * speed2;
             }
 
-            if(gc.gameover)
+            if(gc.gameOver)
             {
                 int zombie = PlayerPrefs.GetInt("zombie");
                 if(zombie == 1)
