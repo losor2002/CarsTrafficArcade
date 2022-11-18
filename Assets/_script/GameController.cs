@@ -72,10 +72,7 @@ namespace _script
         public GameObject[] hazards;
         [FormerlySerializedAs("spawnvalues")]
         public Vector3[] hazardsSpawnPositions;
-        
-        private GameObject lastHazard;
-        private Vector3 lastSpawnPosition;
-        
+
         [FormerlySerializedAs("zombieprefab")]
         public GameObject zombie;
         [FormerlySerializedAs("spawnvalueszombie")]
@@ -178,7 +175,7 @@ namespace _script
             StartCoroutine(score1());
             if (zombieMode == 0)
             {
-                StartCoroutine(SpawnWawes());
+                StartCoroutine(SpawnWaves());
             }
             else
             {
@@ -236,33 +233,35 @@ namespace _script
             }
         }
 
-        IEnumerator SpawnWawes()
+        private IEnumerator SpawnWaves()
         {
+            int lastHazardIndex = -1;
+            int lastSpawnPositionIndex = -1;
+            
             yield return new WaitForSeconds(startWait);
             while (!gameOver)
             {
-                GameObject hazard = hazards[Random.Range(0, hazards.Length)];
-                Vector3 spawnPosition = hazardsSpawnPositions[Random.Range(0, hazardsSpawnPositions.Length)];
-                while(lastSpawnPosition == spawnPosition)
-                {
-                    spawnPosition = hazardsSpawnPositions[Random.Range(0, hazardsSpawnPositions.Length)];
-                }
-                while (lastHazard == hazard)
-                {
-                    hazard = hazards[Random.Range(0, hazards.Length)];
-                }
-                lastHazard = hazard;
-                lastSpawnPosition = spawnPosition;
+                int hazardIndex = Random.Range(0, hazards.Length);
+                if (hazardIndex == lastHazardIndex)
+                    hazardIndex = (hazardIndex + 1) % hazards.Length;
+                lastHazardIndex = hazardIndex;
+                GameObject hazard = hazards[hazardIndex];
+
+                int spawnPositionIndex = Random.Range(0, hazardsSpawnPositions.Length);
+                if (spawnPositionIndex == lastSpawnPositionIndex)
+                    spawnPositionIndex = (spawnPositionIndex + 1) % hazardsSpawnPositions.Length;
+                lastSpawnPositionIndex = spawnPositionIndex;
+                Vector3 spawnPosition = hazardsSpawnPositions[spawnPositionIndex];
+                
                 Quaternion spawnRotation = Quaternion.identity;
+                
                 Instantiate(hazard, spawnPosition, spawnRotation);
+
                 if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
-                {
                     spawnWait = spawnWait1;
-                }
-                if (score >= scoreSpawnAcceleration1)
-                {
+                else if (score >= scoreSpawnAcceleration1)
                     spawnWait = spawnWait2;
-                }
+                
                 yield return new WaitForSeconds(spawnWait);
             }
         }
@@ -277,27 +276,26 @@ namespace _script
             }
         }
 
-        IEnumerator SpawnZombies()
+        private IEnumerator SpawnZombies()
         {
             yield return new WaitForSeconds(startWait);
             while (!gameOver)
             {
-                Vector3 spawnPosition = new Vector3(Random.Range(-zombieSpawnPosition.x, zombieSpawnPosition.x), zombieSpawnPosition.y, zombieSpawnPosition.z);
-                while (lastSpawnPosition == spawnPosition)
-                {
-                    spawnPosition = new Vector3(Random.Range(-zombieSpawnPosition.x, zombieSpawnPosition.x), zombieSpawnPosition.y, zombieSpawnPosition.z);
-                }
-                lastSpawnPosition = spawnPosition;
+                Vector3 spawnPosition = new Vector3(
+                    Random.Range(-zombieSpawnPosition.x, zombieSpawnPosition.x),
+                    zombieSpawnPosition.y,
+                    zombieSpawnPosition.z
+                    );
+                
                 Quaternion spawnRotation = Quaternion.identity;
+                
                 Instantiate(zombie, spawnPosition, spawnRotation);
+                
                 if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
-                {
                     spawnWaitZombie = spawnWaitZombie1;
-                }
-                if (score >= scoreSpawnAcceleration1)
-                {
+                else if (score >= scoreSpawnAcceleration1)
                     spawnWaitZombie = spawnWaitZombie2;
-                }
+                
                 yield return new WaitForSeconds(spawnWaitZombie);
             }
         }
