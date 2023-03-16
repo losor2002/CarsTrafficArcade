@@ -20,7 +20,7 @@ namespace _script
             {
                 if (!a)
                 {
-                    gameController.Sfioramento();
+                    gameController.Touched();
                     a = true;
                 }
             }

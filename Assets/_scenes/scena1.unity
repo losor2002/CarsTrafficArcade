@@ -444,7 +444,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1446354709}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Muto
+        m_MethodName: Unmute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -865,7 +865,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1446354709}
         m_TargetAssemblyTypeName: 
-        m_MethodName: menu
+        m_MethodName: Menu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1663,7 +1663,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1446354709}
         m_TargetAssemblyTypeName: 
-        m_MethodName: pausa
+        m_MethodName: Pause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2451,7 +2451,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1446354709}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Avviso2
+        m_MethodName: ControlSystemAlertClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4025,7 +4025,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1446354709}
         m_TargetAssemblyTypeName: 
-        m_MethodName: riprendi
+        m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4770,7 +4770,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1446354709}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Volume
+        m_MethodName: Mute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

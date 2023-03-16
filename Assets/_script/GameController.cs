@@ -88,153 +88,133 @@ namespace _script
 
         [FormerlySerializedAs("avvisotx")] public Text alertText;
 
-        private AudioSource activeAudio;
+        private AudioSource _activeAudio;
 
-        private bool alertBool;
+        private bool _alertBool;
 
-        private int controlSystem;
+        private int _controlSystem;
 
-        private int kills;
-        private int zombieMode;
-        private AudioSource zombieRoar;
-        private AudioSource zombieVerse;
+        private int _kills;
+        private int _zombieMode;
+        private AudioSource _zombieRoar;
+        private AudioSource _zombieSound;
 
         private void Start()
         {
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
-            var arrows = PlayerPrefs.GetInt("frecce", 2);
-            controlSystem = PlayerPrefs.GetInt("control", 2);
-            if (controlSystem == 0)
+            _controlSystem = PlayerPrefs.GetInt("control", 2);
+            switch (_controlSystem)
             {
-                var t = PlayerPrefs.GetInt("tutorial1", 0);
-                if (t == 0)
+                case 0:
                 {
-                    StartCoroutine(Tutorial());
-                    PlayerPrefs.SetInt("tutorial1", 1);
+                    var t = PlayerPrefs.GetInt("tutorial1", 0);
+                    if (t == 0)
+                    {
+                        StartCoroutine(Tutorial());
+                        PlayerPrefs.SetInt("tutorial1", 1);
+                    }
+
+                    break;
                 }
-            }
-            else if (controlSystem == 1)
-            {
-                var t = PlayerPrefs.GetInt("tutorial2", 0);
-                if (t == 0)
+                case 1:
                 {
-                    StartCoroutine(Tutorial());
-                    PlayerPrefs.SetInt("tutorial2", 1);
+                    var t = PlayerPrefs.GetInt("tutorial2", 0);
+                    if (t == 0)
+                    {
+                        StartCoroutine(Tutorial());
+                        PlayerPrefs.SetInt("tutorial2", 1);
+                    }
+
+                    break;
                 }
-            }
-            else if (controlSystem == 2)
-            {
-                if (arrows == 0)
+                case 2:
                 {
-                    controlArrowsRight.SetActive(true);
-                }
-                else if (arrows == 1)
-                {
-                    controlArrowsLeft.SetActive(true);
-                }
-                else if (arrows == 2)
-                {
-                    controlArrowsCenter.SetActive(true);
+                    switch (PlayerPrefs.GetInt("frecce", 2))
+                    {
+                        case 0:
+                            controlArrowsRight.SetActive(true);
+                            break;
+                        case 1:
+                            controlArrowsLeft.SetActive(true);
+                            break;
+                        case 2:
+                            controlArrowsCenter.SetActive(true);
+                            break;
+                    }
+
+                    break;
                 }
             }
 
-            var c = PlayerPrefs.GetInt("car", 0);
-            zombieMode = PlayerPrefs.GetInt("zombie");
-            if (zombieMode == 1)
+            var selectedCar = PlayerPrefs.GetInt("car", 0);
+
+            _zombieMode = PlayerPrefs.GetInt("zombie");
+            if (_zombieMode == 1)
             {
-                c = 5;
-                var tz = PlayerPrefs.GetInt("tutorialz", 0);
-                if (tz == 0)
+                selectedCar = 5;
+                if (PlayerPrefs.GetInt("tutorialz", 0) == 0)
                 {
-                    StartCoroutine(Tutorialz());
+                    StartCoroutine(TutorialZombie());
                     PlayerPrefs.SetInt("tutorialz", 1);
                 }
             }
 
-            var car = playerCars[c];
-            var spawnPosition = playerCarsSpawnPositions[c];
-            var spawnRotation = Quaternion.identity;
-            Instantiate(car, spawnPosition, spawnRotation);
+            Instantiate(playerCars[selectedCar], playerCarsSpawnPositions[selectedCar], Quaternion.identity);
+
             var sounds = GetComponents<AudioSource>();
             var defaultAudio = sounds[0];
             var zombieAudio = sounds[1];
-            zombieRoar = sounds[2];
-            zombieVerse = sounds[3];
-            if (zombieMode == 0)
+            _zombieRoar = sounds[2];
+            _zombieSound = sounds[3];
+            if (_zombieMode == 0)
             {
                 defaultAudio.Play();
-                activeAudio = defaultAudio;
+                _activeAudio = defaultAudio;
             }
             else
             {
                 zombieAudio.Play();
-                activeAudio = zombieAudio;
+                _activeAudio = zombieAudio;
             }
 
             Time.timeScale = 1.0f;
             scoreText.text = "Score: " + score;
             killsText.text = "";
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            StartCoroutine(score1());
-            if (zombieMode == 0)
+            StartCoroutine(UpdateScore());
+            if (_zombieMode == 0)
             {
                 StartCoroutine(SpawnWaves());
             }
             else
             {
                 StartCoroutine(SpawnZombies());
-                StartCoroutine(VersoZombie());
+                StartCoroutine(ZombieSound());
             }
 
-            var av = PlayerPrefs.GetInt("Avviso", 0);
-            if (av == 0)
+            if (PlayerPrefs.GetInt("Avviso", 0) == 0)
             {
-                Avviso1();
+                ControlSystemAlert();
                 PlayerPrefs.SetInt("Avviso", 1);
             }
             else
             {
-                alertBool = true;
+                _alertBool = true;
             }
         }
 
         private void Update()
         {
-            if (!gameOver)
+            if (Input.GetKeyDown(KeyCode.Escape) && !gameOver)
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    pausa();
-                }
+                Pause();
             }
 
-            if (zombieMode == 1)
+            if (_zombieMode == 1)
             {
-                kills = PlayerPrefs.GetInt("kills", 0);
-                killsText.text = "Kills: " + kills;
-            }
-
-            if (pause)
-            {
-                var audst = PlayerPrefs.GetInt("audst", 1);
-                if (audst == 1)
-                {
-                    AudioListener.volume = 1.0f;
-                    volumeButton.SetActive(true);
-                    muteButton.SetActive(false);
-                }
-                else
-                {
-                    AudioListener.volume = 0.0f;
-                    volumeButton.SetActive(false);
-                    muteButton.SetActive(true);
-                }
-            }
-            else
-            {
-                volumeButton.SetActive(false);
-                muteButton.SetActive(false);
+                _kills = PlayerPrefs.GetInt("kills", 0);
+                killsText.text = "Kills: " + _kills;
             }
         }
 
@@ -264,9 +244,7 @@ namespace _script
                 lastSpawnPositionIndex = spawnPositionIndex;
                 var spawnPosition = hazardsSpawnPositions[spawnPositionIndex];
 
-                var spawnRotation = Quaternion.identity;
-
-                Instantiate(hazard, spawnPosition, spawnRotation);
+                Instantiate(hazard, spawnPosition, Quaternion.identity);
 
                 if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
                 {
@@ -281,13 +259,13 @@ namespace _script
             }
         }
 
-        private IEnumerator VersoZombie()
+        private IEnumerator ZombieSound()
         {
             while (!gameOver)
             {
                 var a = Random.Range(7.5f, 10f);
                 yield return new WaitForSeconds(a);
-                zombieVerse.Play();
+                _zombieSound.Play();
             }
         }
 
@@ -302,9 +280,7 @@ namespace _script
                     zombieSpawnPosition.z
                 );
 
-                var spawnRotation = Quaternion.identity;
-
-                Instantiate(zombie, spawnPosition, spawnRotation);
+                Instantiate(zombie, spawnPosition, Quaternion.identity);
 
                 if (score >= scoreSpawnAcceleration && score < scoreSpawnAcceleration1)
                 {
@@ -319,14 +295,13 @@ namespace _script
             }
         }
 
-        private IEnumerator score1()
+        private IEnumerator UpdateScore()
         {
-            yield return new WaitForSeconds(scoreTime);
             while (!gameOver)
             {
+                yield return new WaitForSeconds(scoreTime);
                 score += scorePerScoreTime;
                 scoreText.text = "Score: " + score;
-                yield return new WaitForSeconds(scoreTime);
             }
         }
 
@@ -334,94 +309,107 @@ namespace _script
         {
             gameOverText.text = "Game Over";
             gameOver = true;
-            if (zombieMode == 1)
+            if (_zombieMode == 1)
             {
-                zombieRoar.Play();
+                _zombieRoar.Play();
             }
 
-            StartCoroutine(finaldestroy());
+            StartCoroutine(Finish());
         }
 
-        private IEnumerator finaldestroy()
+        private IEnumerator Finish()
         {
             pauseButton.SetActive(false);
             controlArrows.SetActive(false);
             yield return new WaitForSeconds(1.4f);
             Time.timeScale = 0.0f;
-            activeAudio.Stop();
-            HighScore();
-            PlayerPrefs.Save();
+            _activeAudio.Stop();
+            UpdateHighScoreAndCr();
             SceneManager.LoadScene("menu");
         }
 
-        private void HighScore()
+        private void UpdateHighScoreAndCr()
         {
             PlayerPrefs.SetInt("CurrentScore", score);
-            var highscore = PlayerPrefs.GetInt("HighScore", 0);
-            if (score > highscore)
+            if (score > PlayerPrefs.GetInt("HighScore", 0))
             {
                 PlayerPrefs.SetInt("HighScore", score);
             }
 
-            var c = PlayerPrefs.GetInt("cr");
-            PlayerPrefs.SetInt("cr", c + score / 10 + kills);
+            PlayerPrefs.SetInt("cr", PlayerPrefs.GetInt("cr") + score / 10 + _kills);
+
+            PlayerPrefs.Save();
         }
 
-        public void pausa()
+        public void Pause()
         {
             pause = true;
-            controlArrows.SetActive(false);
+
             Time.timeScale = 0.0f;
-            activeAudio.Pause();
+            _activeAudio.Pause();
+            Screen.sleepTimeout = SleepTimeout.SystemSetting;
+
+            controlArrows.SetActive(false);
             pauseButton.SetActive(false);
             resumeButton.SetActive(true);
             menuButton.SetActive(true);
-            Screen.sleepTimeout = SleepTimeout.SystemSetting;
+            if (PlayerPrefs.GetInt("audst", 1) == 1)
+            {
+                volumeButton.SetActive(true);
+            }
+            else
+            {
+                muteButton.SetActive(true);
+            }
         }
 
-        public void riprendi()
+        public void Resume()
         {
             pause = false;
-            controlArrows.SetActive(true);
+
             Time.timeScale = 1.0f;
-            activeAudio.Play();
+            _activeAudio.Play();
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+            controlArrows.SetActive(true);
             pauseButton.SetActive(true);
             resumeButton.SetActive(false);
             menuButton.SetActive(false);
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            volumeButton.SetActive(false);
+            muteButton.SetActive(false);
         }
 
-        public void menu()
+        public void Menu()
         {
-            HighScore();
+            UpdateHighScoreAndCr();
             SceneManager.LoadScene("menu");
         }
 
         private IEnumerator Tutorial()
         {
-            while (!alertBool)
+            while (!_alertBool)
             {
                 yield return new WaitForEndOfFrame();
             }
 
-            if (controlSystem == 0)
+            switch (_controlSystem)
             {
-                tutorialText.text = "Tilt the phone to move the car";
-                yield return new WaitForSeconds(5f);
-                tutorialText.text = "";
-            }
-
-            if (controlSystem == 1)
-            {
-                tutorialText.text = "Drag the finger to move the car";
-                yield return new WaitForSeconds(5f);
-                tutorialText.text = "";
+                case 0:
+                    tutorialText.text = "Tilt the phone to move the car";
+                    yield return new WaitForSeconds(5f);
+                    tutorialText.text = "";
+                    break;
+                case 1:
+                    tutorialText.text = "Drag the finger to move the car";
+                    yield return new WaitForSeconds(5f);
+                    tutorialText.text = "";
+                    break;
             }
         }
 
-        private IEnumerator Tutorialz()
+        private IEnumerator TutorialZombie()
         {
-            while (!alertBool)
+            while (!_alertBool)
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -431,63 +419,63 @@ namespace _script
             tutorialTextZombieMode.text = "";
         }
 
-        public void Sfioramento()
+        public void Touched()
         {
             score += 3;
             touchedText.text = "TOUCHED +3";
-            StartCoroutine(Sfioramento1());
+            StartCoroutine(TouchedCoroutine());
         }
 
-        private IEnumerator Sfioramento1()
+        private IEnumerator TouchedCoroutine()
         {
             yield return new WaitForSecondsRealtime(1f);
             touchedText.text = "";
         }
 
-        public void Volume()
+        public void Mute()
         {
             PlayerPrefs.SetInt("audst", 0);
+            AudioListener.volume = 0.0f;
+            volumeButton.SetActive(false);
+            muteButton.SetActive(true);
         }
 
-        public void Muto()
+        public void Unmute()
         {
             PlayerPrefs.SetInt("audst", 1);
+            AudioListener.volume = 1.0f;
+            volumeButton.SetActive(true);
+            muteButton.SetActive(false);
         }
 
-        private void Avviso1()
+        private void ControlSystemAlert()
         {
             Time.timeScale = 0.0f;
-            activeAudio.Pause();
+            _activeAudio.Pause();
             controlArrows.SetActive(false);
             pauseButton.SetActive(false);
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
-            string control = null;
-            if (controlSystem == 0)
+            var control = _controlSystem switch
             {
-                control = "ACCELEROMETER";
-            }
-            else if (controlSystem == 1)
-            {
-                control = "FINGER DRAG";
-            }
-            else if (controlSystem == 2)
-            {
-                control = "DIRECTIONAL ARROWS";
-            }
+                0 => "ACCELEROMETER",
+                1 => "FINGER DRAG",
+                2 => "DIRECTIONAL ARROWS",
+                _ => null
+            };
 
             alertText.text = "The control system is \n" + control + "\n you can change it \n in the OPTIONS";
             alert.SetActive(true);
         }
 
-        public void Avviso2()
+        public void ControlSystemAlertClose()
         {
             alert.SetActive(false);
             Time.timeScale = 1.0f;
-            activeAudio.Play();
+            _activeAudio.Play();
             controlArrows.SetActive(true);
             pauseButton.SetActive(true);
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            alertBool = true;
+            _alertBool = true;
         }
     }
 }
