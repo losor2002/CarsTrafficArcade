@@ -2,7 +2,7 @@
 
 namespace _script
 {
-    public class destroybyboundary : MonoBehaviour
+    public class DestroyByBoundary : MonoBehaviour
     {
         private void OnTriggerExit(Collider other)
         {
