@@ -2,7 +2,7 @@
 
 namespace _script
 {
-    public class mover : MonoBehaviour
+    public class Mover : MonoBehaviour
     {
         public float speed;
 
