@@ -12,14 +12,14 @@ namespace _script
             colpito = false;
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("proiettile"))
             {
                 if (colpito)
                 {
                     Instantiate(zombiecade, transform.position, transform.rotation);
-                    int k = PlayerPrefs.GetInt("kills", 0);
+                    var k = PlayerPrefs.GetInt("kills", 0);
                     PlayerPrefs.SetInt("kills", k + 1);
                     Destroy(other.gameObject);
                     Destroy(gameObject);

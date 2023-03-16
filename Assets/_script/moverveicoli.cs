@@ -10,30 +10,31 @@ namespace _script
 
         private GameController gc;
 
-        void Start()
+        private void Start()
         {
             GetComponent<Rigidbody>().velocity = transform.forward * speed;
-            GameObject GC = GameObject.FindGameObjectWithTag("GameController");
+            var GC = GameObject.FindGameObjectWithTag("GameController");
             gc = GC.GetComponent<GameController>();
         }
 
         private void Update()
         {
-            if(gc.score >= 30 && gc.score < 50)
+            if (gc.score >= 30 && gc.score < 50)
             {
                 GetComponent<Rigidbody>().velocity = transform.forward * speed1;
             }
+
             if (gc.score >= 50)
             {
                 GetComponent<Rigidbody>().velocity = transform.forward * speed2;
             }
 
-            if(gc.gameOver)
+            if (gc.gameOver)
             {
-                int zombie = PlayerPrefs.GetInt("zombie");
-                if(zombie == 1)
+                var zombie = PlayerPrefs.GetInt("zombie");
+                if (zombie == 1)
                 {
-                    if(this.CompareTag("pista") || this.CompareTag("zombieCade"))
+                    if (CompareTag("pista") || CompareTag("zombieCade"))
                     {
                         GetComponent<Rigidbody>().velocity = Vector3.zero;
                     }
@@ -44,7 +45,7 @@ namespace _script
                 }
                 else
                 {
-                    if (this.CompareTag("pista"))
+                    if (CompareTag("pista"))
                     {
                         GetComponent<Rigidbody>().velocity = Vector3.zero;
                     }

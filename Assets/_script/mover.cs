@@ -6,7 +6,7 @@ namespace _script
     {
         public float speed;
 
-        void Start()
+        private void Start()
         {
             GetComponent<Rigidbody>().velocity = transform.forward * speed;
         }

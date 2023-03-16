@@ -6,9 +6,9 @@ namespace _script
     {
         public float lifetime;
 
-        void Start()
+        private void Start()
         {
-            Destroy (gameObject, lifetime);
+            Destroy(gameObject, lifetime);
         }
     }
 }

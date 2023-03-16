@@ -5,17 +5,17 @@ namespace _script
 {
     public class Orizzontale : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        private bool touched;
-        private int pointerID;
         private bool a;
         private GameController gamecontroller;
+        private int pointerID;
+        private bool touched;
 
-        void Start()
+        private void Start()
         {
-            GameObject gc = GameObject.FindGameObjectWithTag("GameController");
+            var gc = GameObject.FindGameObjectWithTag("GameController");
             gamecontroller = gc.GetComponent<GameController>();
             touched = false;
-            if (this.CompareTag("destra"))
+            if (CompareTag("destra"))
             {
                 a = true;
             }

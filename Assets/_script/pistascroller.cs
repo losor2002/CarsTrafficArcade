@@ -14,7 +14,7 @@ namespace _script
 
         private GameController gamecontroller;
 
-        void Start ()
+        private void Start()
         {
             gamecontroller = GetComponent<GameController>();
             StartCoroutine(frequenza());
@@ -26,17 +26,18 @@ namespace _script
             {
                 spawntime = spawntime1;
             }
+
             if (gamecontroller.score >= 50)
             {
                 spawntime = spawntime2;
             }
         }
 
-        IEnumerator frequenza()
+        private IEnumerator frequenza()
         {
             while (!gamecontroller.gameOver)
             {
-                Quaternion rotation = Quaternion.Euler(1.825f, 0.0f, 2.157f);
+                var rotation = Quaternion.Euler(1.825f, 0.0f, 2.157f);
                 Instantiate(pista, spawn, rotation);
                 yield return new WaitForSeconds(spawntime);
             }

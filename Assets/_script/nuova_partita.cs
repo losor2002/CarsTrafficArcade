@@ -4,11 +4,11 @@ namespace _script
 {
     public class nuova_partita : MonoBehaviour
     {
-        public int NewGame = 0;
+        public int NewGame;
 
         private void Awake()
         {
-            GameObject[] objs = GameObject.FindGameObjectsWithTag("NuovaPartita");
+            var objs = GameObject.FindGameObjectsWithTag("NuovaPartita");
 
             if (objs.Length > 1)
             {

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace _script
 {
-    [System.Serializable]
+    [Serializable]
     public class Boundary
     {
         public float xMin, xMax, zMin, zMax;
@@ -17,24 +18,24 @@ namespace _script
         public float tilt1;
         public float tilt;
         public Boundary boundary;
-        private Quaternion calibrationQuaternion;
-        private touchpad touchpad;
-        private SimpleTouchAreaButton toucharea;
-        private int control;
-        private float nextFire;
         public GameObject shot;
         public Transform shotSpawn;
         public float fireRate;
-        private GameController gamecontroller;
         public ParticleSystem fiammata;
+        private Quaternion calibrationQuaternion;
+        private int control;
+        private GameController gamecontroller;
+        private float nextFire;
+        private SimpleTouchAreaButton toucharea;
+        private touchpad touchpad;
 
 
         private void Start()
         {
             calibraton();
             control = PlayerPrefs.GetInt("control", 2);
-            GameObject touchpadObject = GameObject.FindGameObjectWithTag("Mzone");
-            GameObject gc = GameObject.FindGameObjectWithTag("GameController");
+            var touchpadObject = GameObject.FindGameObjectWithTag("Mzone");
+            var gc = GameObject.FindGameObjectWithTag("GameController");
             touchpad = touchpadObject.GetComponent<touchpad>();
             toucharea = touchpadObject.GetComponent<SimpleTouchAreaButton>();
             gamecontroller = gc.GetComponent<GameController>();
@@ -47,6 +48,7 @@ namespace _script
                 speed = speed1;
                 tilt = tilt1;
             }
+
             if (gamecontroller.score >= 50)
             {
                 speed = speed2;
@@ -72,26 +74,27 @@ namespace _script
             }
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (control == 0)
             {
-                Vector3 accelerationR = Input.acceleration;
-                Vector3 acceleration = Fixacc(accelerationR);
-                Vector3 movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
+                var accelerationR = Input.acceleration;
+                var acceleration = Fixacc(accelerationR);
+                var movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
                 GetComponent<Rigidbody>().velocity = movement * speed * 1.5f;
             }
 
             if (control == 1)
             {
-                Vector2 direction = touchpad.GetDirection();
-                Vector3 movement = new Vector3(direction.x, 0.0f, direction.y);
+                var direction = touchpad.GetDirection();
+                var movement = new Vector3(direction.x, 0.0f, direction.y);
                 GetComponent<Rigidbody>().velocity = movement * speed;
             }
 
             if (control == 2)
             {
-                Vector3 movement = new Vector3(gamecontroller.horizontalPlayerMovement, 0.0f, gamecontroller.verticalPlayerMovement);
+                var movement = new Vector3(gamecontroller.horizontalPlayerMovement, 0.0f,
+                    gamecontroller.verticalPlayerMovement);
                 GetComponent<Rigidbody>().velocity = movement * speed;
             }
 
@@ -102,19 +105,20 @@ namespace _script
                 Mathf.Clamp(GetComponent<Rigidbody>().position.z, boundary.zMin, boundary.zMax)
             );
 
-            GetComponent<Rigidbody>().rotation = Quaternion.Euler(0.0f, GetComponent<Rigidbody>().velocity.x * tilt, 0.0f);
+            GetComponent<Rigidbody>().rotation =
+                Quaternion.Euler(0.0f, GetComponent<Rigidbody>().velocity.x * tilt, 0.0f);
         }
 
-        void calibraton()
+        private void calibraton()
         {
-            Vector3 accsnapsh = Input.acceleration;
-            Quaternion rotate = Quaternion.FromToRotation(new Vector3(0.0f, 0.0f, -1.0f), accsnapsh);
+            var accsnapsh = Input.acceleration;
+            var rotate = Quaternion.FromToRotation(new Vector3(0.0f, 0.0f, -1.0f), accsnapsh);
             calibrationQuaternion = Quaternion.Inverse(rotate);
         }
 
-        Vector3 Fixacc (Vector3 acceleration)
+        private Vector3 Fixacc(Vector3 acceleration)
         {
-            Vector3 fixedacc = calibrationQuaternion * acceleration;
+            var fixedacc = calibrationQuaternion * acceleration;
             return fixedacc;
         }
     }

@@ -11,7 +11,7 @@ namespace _script
 
         private void Start()
         {
-            GameObject GC = GameObject.FindGameObjectWithTag("GameController");
+            var GC = GameObject.FindGameObjectWithTag("GameController");
             gc = GC.GetComponent<GameController>();
         }
 
@@ -23,7 +23,7 @@ namespace _script
             }
         }
 
-        IEnumerator Destroy()
+        private IEnumerator Destroy()
         {
             yield return new WaitForSeconds(1.35f);
             GetComponent<Rigidbody>().velocity = transform.forward * speed;

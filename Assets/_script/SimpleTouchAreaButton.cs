@@ -5,12 +5,12 @@ namespace _script
 {
     public class SimpleTouchAreaButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
+        private bool canFire;
+        private int pointerID;
 
         private bool touched;
-        private int pointerID;
-        private bool canFire;
 
-        void Awake()
+        private void Awake()
         {
             touched = false;
         }
@@ -38,6 +38,5 @@ namespace _script
         {
             return canFire;
         }
-
     }
 }

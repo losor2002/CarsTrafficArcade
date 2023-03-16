@@ -11,9 +11,11 @@ namespace _script
         private void Start()
         {
             if (PlayerPrefs.GetInt(key) != 1)
+            {
                 return;
+            }
 
-            Light light = GetComponent<Light>();
+            var light = GetComponent<Light>();
             light.intensity = intensity;
             light.shadowStrength = shadowStrength;
         }

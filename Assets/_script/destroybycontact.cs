@@ -4,25 +4,25 @@ namespace _script
 {
     public class destroybycontact : MonoBehaviour
     {
-        private GameController gameController;
         public GameObject explosion;
-        private int zombie;
         public GameObject zombiecade;
+        private GameController gameController;
+        private int zombie;
 
-        void Start ()
+        private void Start()
         {
-            GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+            var gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
             gameController = gameControllerObject.GetComponent<GameController>();
             zombie = PlayerPrefs.GetInt("zombie");
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Enemy"))
             {
                 if (zombie == 0)
                 {
-                    Vector3 pos1 = other.transform.position + new Vector3(0f, 0.1f, 0f);
+                    var pos1 = other.transform.position + new Vector3(0f, 0.1f, 0f);
                     Instantiate(explosion, pos1, other.transform.rotation);
                     Destroy(other.gameObject);
                 }
@@ -31,7 +31,8 @@ namespace _script
                     Instantiate(zombiecade, other.transform.position, other.transform.rotation);
                     Destroy(other.gameObject);
                 }
-                Vector3 pos = transform.position + new Vector3(0f, 0.1f, 0f);
+
+                var pos = transform.position + new Vector3(0f, 0.1f, 0f);
                 Instantiate(explosion, pos, transform.rotation);
                 gameController.GameOver();
                 Destroy(gameObject);

@@ -12,14 +12,14 @@ namespace _script
         public Text f1tx;
         public Text sport1tx;
         public Text muscletx;
-        private int c;
         private int aston;
+
+        private AsyncOperation asyncLoad;
+        private int c;
         private int chev;
         private int f1;
-        private int sport1;
         private int muscle;
-
-        AsyncOperation asyncLoad;
+        private int sport1;
 
         private void Start()
         {
@@ -34,29 +34,28 @@ namespace _script
             {
                 astontx.text = "";
             }
+
             if (chev == 1)
             {
                 chevtx.text = "";
             }
+
             if (f1 == 1)
             {
                 f1tx.text = "";
             }
+
             if (sport1 == 1)
             {
                 sport1tx.text = "";
             }
-            if(muscle == 1)
+
+            if (muscle == 1)
             {
                 muscletx.text = "";
             }
-            Caricamento();
-        }
 
-        void Caricamento()
-        {
-            asyncLoad = SceneManager.LoadSceneAsync("menu");
-            asyncLoad.allowSceneActivation = false;
+            Caricamento();
         }
 
         private void Update()
@@ -67,6 +66,12 @@ namespace _script
             {
                 back();
             }
+        }
+
+        private void Caricamento()
+        {
+            asyncLoad = SceneManager.LoadSceneAsync("menu");
+            asyncLoad.allowSceneActivation = false;
         }
 
         public void back()
