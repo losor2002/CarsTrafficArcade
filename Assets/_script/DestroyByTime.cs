@@ -2,7 +2,7 @@
 
 namespace _script
 {
-    public class destroybytime : MonoBehaviour
+    public class DestroyByTime : MonoBehaviour
     {
         public float lifetime;
 
