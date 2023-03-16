@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44651407, g: 0.49634254, b: 0.5747789, a: 1}
+  m_IndirectSpecularColor: {r: 0.44396073, g: 0.49309587, b: 0.57219714, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3079,11 +3079,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eed72424d5d0e394faa08daa28a23d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawn: {x: -0.0148194, y: 0.1697636, z: 27.05}
-  pista: {fileID: 1311107591897476, guid: 581a269b96cf07b4f83eed59bc6f8317, type: 3}
-  spawntime: 1.45
-  spawntime1: 1.38
-  spawntime2: 1.32
+  track: {fileID: 1311107591897476, guid: 581a269b96cf07b4f83eed59bc6f8317, type: 3}
+  spawnPosition: {x: -0.0148194, y: 0.1697636, z: 27.05}
+  spawnRotation: {x: 0.01592264, y: -0.00029975324, z: 0.018819876, w: 0.999696}
+  spawnInterval: 1.45
+  spawnInterval1: 1.38
+  spawnInterval2: 1.32
 --- !u!114 &1446354709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3100,29 +3101,28 @@ MonoBehaviour:
   scorePerScoreTime: 1
   scoreTime: 1
   startWait: 0.4
-  scorespawnacc: 30
-  scorespawnacc1: 50
-  spawnwait1: 0.6
-  spawnwait2: 0.5
-  spawnwait3: 0.4
-  spawnwaitzombie1: 0.4
-  spawnwaitzombie2: 0.3
-  spawnwaitzombie3: 0.2
-  hor: 0
-  vert: 0
-  gameover: 0
+  scoreSpawnAcceleration: 30
+  scoreSpawnAcceleration1: 50
+  spawnWait: 0.6
+  spawnWait1: 0.5
+  spawnWait2: 0.4
+  spawnWaitZombie: 0.4
+  spawnWaitZombie1: 0.3
+  spawnWaitZombie2: 0.2
+  horizontalPlayerMovement: 0
+  verticalPlayerMovement: 0
+  gameOver: 0
   pause: 0
-  avviso: {fileID: 621353057}
-  frecce: {fileID: 887013587}
-  freccedestra: {fileID: 993842300}
-  freccesinistra: {fileID: 1717061372}
-  freccecentro: {fileID: 1435894949}
-  volumeButt: {fileID: 1941073496}
-  mutoButt: {fileID: 142893618}
-  resumebutt: {fileID: 1575604862}
-  menubutt: {fileID: 492239501}
-  pausebutt: {fileID: 734910358}
-  explosionE: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  alert: {fileID: 621353057}
+  controlArrows: {fileID: 887013587}
+  controlArrowsRight: {fileID: 993842300}
+  controlArrowsLeft: {fileID: 1717061372}
+  controlArrowsCenter: {fileID: 1435894949}
+  volumeButton: {fileID: 1941073496}
+  muteButton: {fileID: 142893618}
+  resumeButton: {fileID: 1575604862}
+  menuButton: {fileID: 492239501}
+  pauseButton: {fileID: 734910358}
   hazards:
   - {fileID: 1362625066458378, guid: b395e8e8fc7ddaa4398fc2400c16373d, type: 3}
   - {fileID: 1496121466592734, guid: 8953eb98e7fb010409b80c802ed95e44, type: 3}
@@ -3134,13 +3134,14 @@ MonoBehaviour:
   - {fileID: 1300351075526652, guid: 78f1ba4575da24f4b96a3486577a802e, type: 3}
   - {fileID: 1874879992164914, guid: 9264e5035c50f5347adfde626d56a480, type: 3}
   - {fileID: 1101930874419366, guid: 7d42fc31a940c53468faa90bc2c3dd16, type: 3}
-  spawnvalues:
+  hazardsSpawnPositions:
   - {x: -3.7, y: -0.62, z: 26}
   - {x: -1.12, y: -0.62, z: 26}
   - {x: 1.44, y: -0.62, z: 26}
   - {x: 3.99, y: -0.62, z: 26}
-  spawnvalueszombie: {x: 4.76, y: -0.62, z: 21}
-  cars:
+  zombie: {fileID: 1504316674578056, guid: 6f7f04e82e669db4ea6dc4c1f64c2a24, type: 3}
+  zombieSpawnPosition: {x: 4.76, y: -0.62, z: 21}
+  playerCars:
   - {fileID: 1671306514615826, guid: 69263a8bd1f5fca468b50ec9a3bc7331, type: 3}
   - {fileID: 1886564717199386, guid: b3e9e7c7ab4321d47a9de7cceb1f536d, type: 3}
   - {fileID: 1154217874613410, guid: c6410606dc018e049b6f9b5eca719086, type: 3}
@@ -3148,9 +3149,7 @@ MonoBehaviour:
   - {fileID: 1792576128993570, guid: 5966a560a767d174aabf36dbd4bb9202, type: 3}
   - {fileID: 1413002795652746, guid: db7dc9b0c5ef6054a9510a5d6c8e8fca, type: 3}
   - {fileID: 1459734325325608, guid: 2a2dc6757580c484f8157c0d365e6141, type: 3}
-  zombieprefab: {fileID: 1504316674578056, guid: 6f7f04e82e669db4ea6dc4c1f64c2a24,
-    type: 3}
-  carSpawn:
+  playerCarsSpawnPositions:
   - {x: -1.14, y: -0.38, z: 0}
   - {x: -1.14, y: -0.512, z: 0}
   - {x: -1.14, y: -0.625, z: 0}
@@ -3158,13 +3157,13 @@ MonoBehaviour:
   - {x: -1.14, y: -0.335, z: 0}
   - {x: -1.14, y: -0.62, z: 0}
   - {x: -1.14, y: -0.29, z: 0}
-  scoretext: {fileID: 856243750}
-  gameovertext: {fileID: 1985968392}
-  tutorialtx: {fileID: 1573890364}
-  tutorialtxz: {fileID: 1962925860}
-  Killtx: {fileID: 1959526650}
-  sfiorare: {fileID: 1269327431}
-  avvisotx: {fileID: 959563509}
+  scoreText: {fileID: 856243750}
+  gameOverText: {fileID: 1985968392}
+  tutorialText: {fileID: 1573890364}
+  tutorialTextZombieMode: {fileID: 1962925860}
+  killsText: {fileID: 1959526650}
+  touchedText: {fileID: 1269327431}
+  alertText: {fileID: 959563509}
 --- !u!82 &1446354710
 AudioSource:
   m_ObjectHideFlags: 0
