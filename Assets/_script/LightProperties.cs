@@ -15,9 +15,9 @@ namespace _script
                 return;
             }
 
-            var light = GetComponent<Light>();
-            light.intensity = intensity;
-            light.shadowStrength = shadowStrength;
+            var lightComponent = GetComponent<Light>();
+            lightComponent.intensity = intensity;
+            lightComponent.shadowStrength = shadowStrength;
         }
     }
 }
