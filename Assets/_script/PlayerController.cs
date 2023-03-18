@@ -27,7 +27,7 @@ namespace _script
         private GameController gamecontroller;
         private float nextFire;
         private SimpleTouchAreaButton toucharea;
-        private touchpad touchpad;
+        private Touchpad touchpad;
 
 
         private void Start()
@@ -36,7 +36,7 @@ namespace _script
             control = PlayerPrefs.GetInt("control", 2);
             var touchpadObject = GameObject.FindGameObjectWithTag("Mzone");
             var gc = GameObject.FindGameObjectWithTag("GameController");
-            touchpad = touchpadObject.GetComponent<touchpad>();
+            touchpad = touchpadObject.GetComponent<Touchpad>();
             toucharea = touchpadObject.GetComponent<SimpleTouchAreaButton>();
             gamecontroller = gc.GetComponent<GameController>();
         }
