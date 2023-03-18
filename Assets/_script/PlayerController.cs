@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _script
 {
@@ -14,112 +15,109 @@ namespace _script
         public float speed;
         public float speed1;
         public float speed2;
-        public float tilt2;
-        public float tilt1;
         public float tilt;
+        public float tilt1;
+        public float tilt2;
         public Boundary boundary;
         public GameObject shot;
         public Transform shotSpawn;
         public float fireRate;
-        public ParticleSystem fiammata;
-        private Quaternion calibrationQuaternion;
-        private int control;
-        private GameController gamecontroller;
-        private float nextFire;
-        private TouchAreaButton toucharea;
-        private Touchpad touchpad;
+        [FormerlySerializedAs("fiammata")] public ParticleSystem muzzleFlash;
 
+        private Quaternion _accelerometerCalibrationQuaternion;
+        private int _controlSystem;
+        private TouchAreaButton _fireButton;
+        private GameController _gameController;
+        private bool _isGunActive;
+        private float _nextFireTime;
+        private Rigidbody _rigidbody;
+        private Touchpad _touchpad;
 
         private void Start()
         {
-            calibraton();
-            control = PlayerPrefs.GetInt("control", 2);
+            _controlSystem = PlayerPrefs.GetInt("control", 2);
+            if (_controlSystem == 0)
+            {
+                AccelerometerCalibration();
+            }
+
             var touchpadObject = GameObject.FindGameObjectWithTag("Mzone");
-            var gc = GameObject.FindGameObjectWithTag("GameController");
-            touchpad = touchpadObject.GetComponent<Touchpad>();
-            toucharea = touchpadObject.GetComponent<TouchAreaButton>();
-            gamecontroller = gc.GetComponent<GameController>();
+            _touchpad = touchpadObject.GetComponent<Touchpad>();
+            _fireButton = touchpadObject.GetComponent<TouchAreaButton>();
+            _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
+            _isGunActive = shotSpawn != null;
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
         private void Update()
         {
-            if (gamecontroller.score >= 30 && gamecontroller.score < 50)
+            if (_isGunActive && !_gameController.pause && _fireButton.IsPressed() && Time.time > _nextFireTime)
             {
-                speed = speed1;
-                tilt = tilt1;
-            }
-
-            if (gamecontroller.score >= 50)
-            {
-                speed = speed2;
-                tilt = tilt2;
-            }
-
-            if (shotSpawn != null)
-            {
-                if (!gamecontroller.pause)
-                {
-                    if (toucharea.IsPressed() && Time.time > nextFire)
-                    {
-                        nextFire = Time.time + fireRate;
-                        Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
-                        fiammata.Play();
-                    }
-                }
-            }
-
-            if (gamecontroller.gameOver)
-            {
-                Destroy(gameObject);
+                _nextFireTime = Time.time + fireRate;
+                Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+                muzzleFlash.Play();
             }
         }
 
         private void FixedUpdate()
         {
-            if (control == 0)
+            switch (_gameController.score)
             {
-                var accelerationR = Input.acceleration;
-                var acceleration = Fixacc(accelerationR);
-                var movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
-                GetComponent<Rigidbody>().velocity = movement * speed * 1.5f;
+                case >= 30 and < 50:
+                    speed = speed1;
+                    tilt = tilt1;
+                    break;
+                case >= 50:
+                    speed = speed2;
+                    tilt = tilt2;
+                    break;
             }
 
-            if (control == 1)
+            switch (_controlSystem)
             {
-                var direction = touchpad.GetDirection();
-                var movement = new Vector3(direction.x, 0.0f, direction.y);
-                GetComponent<Rigidbody>().velocity = movement * speed;
+                case 0:
+                {
+                    var acceleration = FixedAcceleration(Input.acceleration);
+                    var movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
+                    _rigidbody.velocity = movement * (speed * 1.5f);
+                    break;
+                }
+                case 1:
+                {
+                    var direction = _touchpad.GetDirection();
+                    var movement = new Vector3(direction.x, 0.0f, direction.y);
+                    _rigidbody.velocity = movement * speed;
+                    break;
+                }
+                case 2:
+                {
+                    var movement = new Vector3(_gameController.horizontalPlayerMovement, 0.0f,
+                        _gameController.verticalPlayerMovement);
+                    _rigidbody.velocity = movement * speed;
+                    break;
+                }
             }
 
-            if (control == 2)
-            {
-                var movement = new Vector3(gamecontroller.horizontalPlayerMovement, 0.0f,
-                    gamecontroller.verticalPlayerMovement);
-                GetComponent<Rigidbody>().velocity = movement * speed;
-            }
-
-            GetComponent<Rigidbody>().position = new Vector3
+            _rigidbody.position = new Vector3
             (
-                Mathf.Clamp(GetComponent<Rigidbody>().position.x, boundary.xMin, boundary.xMax),
+                Mathf.Clamp(_rigidbody.position.x, boundary.xMin, boundary.xMax),
                 0.0f,
-                Mathf.Clamp(GetComponent<Rigidbody>().position.z, boundary.zMin, boundary.zMax)
+                Mathf.Clamp(_rigidbody.position.z, boundary.zMin, boundary.zMax)
             );
 
-            GetComponent<Rigidbody>().rotation =
-                Quaternion.Euler(0.0f, GetComponent<Rigidbody>().velocity.x * tilt, 0.0f);
+            _rigidbody.rotation = Quaternion.Euler(0.0f, _rigidbody.velocity.x * tilt, 0.0f);
         }
 
-        private void calibraton()
+        private void AccelerometerCalibration()
         {
-            var accsnapsh = Input.acceleration;
-            var rotate = Quaternion.FromToRotation(new Vector3(0.0f, 0.0f, -1.0f), accsnapsh);
-            calibrationQuaternion = Quaternion.Inverse(rotate);
+            var rotate = Quaternion.FromToRotation(new Vector3(0.0f, 0.0f, -1.0f), Input.acceleration);
+            _accelerometerCalibrationQuaternion = Quaternion.Inverse(rotate);
         }
 
-        private Vector3 Fixacc(Vector3 acceleration)
+        private Vector3 FixedAcceleration(Vector3 acceleration)
         {
-            var fixedacc = calibrationQuaternion * acceleration;
-            return fixedacc;
+            return _accelerometerCalibrationQuaternion * acceleration;
         }
     }
 }

@@ -42,6 +42,8 @@ GameObject:
   - component: {fileID: 4300244677455604}
   - component: {fileID: 114126187570428594}
   - component: {fileID: 54585546526653574}
+  - component: {fileID: 1979610562788080597}
+  - component: {fileID: 8952664002581248236}
   m_Layer: 0
   m_Name: buggy
   m_TagString: Player
@@ -83,9 +85,9 @@ MonoBehaviour:
   speed: 10
   speed1: 9.5
   speed2: 9
-  tilt2: 0.9
-  tilt1: 0.95
   tilt: 1
+  tilt1: 0.95
+  tilt2: 0.9
   boundary:
     xMin: -4.49
     xMax: 4.62
@@ -94,7 +96,7 @@ MonoBehaviour:
   shot: {fileID: 1356861619295668, guid: 6d66ff8c0d8890d4395cfda86a35fa80, type: 3}
   shotSpawn: {fileID: 4320975486857352}
   fireRate: 0.15
-  fiammata: {fileID: 198517954754717304}
+  muzzleFlash: {fileID: 198517954754717304}
 --- !u!54 &54585546526653574
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -111,6 +113,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!114 &1979610562788080597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413002795652746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d8c7f209aa54e4f8924fe30a526ce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosion: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  fallingZombie: {fileID: 1504074602171474, guid: 06ff3c0546bd6b24193032d8c223d73f,
+    type: 3}
+--- !u!65 &8952664002581248236
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413002795652746}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.31, y: 5.25, z: 11.69}
+  m_Center: {x: 0, y: 2.48, z: 0}
 --- !u!1 &1417197580690684
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,8 +152,6 @@ GameObject:
   - component: {fileID: 4670841480766326}
   - component: {fileID: 33826523016337450}
   - component: {fileID: 23838224582344494}
-  - component: {fileID: 64608646609237438}
-  - component: {fileID: 114838059132750432}
   m_Layer: 0
   m_Name: buggy
   m_TagString: Player
@@ -196,35 +224,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64608646609237438
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417197580690684}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 6aa57bfda41ae3b42939c6e473425948, type: 3}
---- !u!114 &114838059132750432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417197580690684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6d8c7f209aa54e4f8924fe30a526ce4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosion: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
-  fallingZombie: {fileID: 1504074602171474, guid: 06ff3c0546bd6b24193032d8c223d73f,
-    type: 3}
 --- !u!1 &1760441695071084
 GameObject:
   m_ObjectHideFlags: 0
