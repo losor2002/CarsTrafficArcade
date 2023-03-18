@@ -26,7 +26,7 @@ namespace _script
         private int control;
         private GameController gamecontroller;
         private float nextFire;
-        private SimpleTouchAreaButton toucharea;
+        private TouchAreaButton toucharea;
         private Touchpad touchpad;
 
 
@@ -37,7 +37,7 @@ namespace _script
             var touchpadObject = GameObject.FindGameObjectWithTag("Mzone");
             var gc = GameObject.FindGameObjectWithTag("GameController");
             touchpad = touchpadObject.GetComponent<Touchpad>();
-            toucharea = touchpadObject.GetComponent<SimpleTouchAreaButton>();
+            toucharea = touchpadObject.GetComponent<TouchAreaButton>();
             gamecontroller = gc.GetComponent<GameController>();
         }
 
@@ -59,7 +59,7 @@ namespace _script
             {
                 if (!gamecontroller.pause)
                 {
-                    if (toucharea.CanFire() && Time.time > nextFire)
+                    if (toucharea.IsPressed() && Time.time > nextFire)
                     {
                         nextFire = Time.time + fireRate;
                         Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
