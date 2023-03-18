@@ -47,8 +47,6 @@ namespace _script
         private int highscore;
         private bool main = true;
 
-        private nuova_partita np;
-
         private bool options;
         private int score;
         private bool sk;
@@ -57,13 +55,7 @@ namespace _script
         {
             Application.targetFrameRate = -1;
 
-            var NP = GameObject.FindGameObjectWithTag("NuovaPartita");
-            np = NP.GetComponent<nuova_partita>();
-            if (np.NewGame == 0)
-            {
-                dayCheck();
-                np.NewGame = 1;
-            }
+            dayCheck();
 
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
             cr = PlayerPrefs.GetInt("cr", 0);
