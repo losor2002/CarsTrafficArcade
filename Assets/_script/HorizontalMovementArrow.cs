@@ -5,14 +5,15 @@ namespace _script
 {
     public class HorizontalMovementArrow : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        private GameController _gameController;
+        private GameControllerPlayScene _gameControllerPlayScene;
         private bool _isRightArrow;
         private int _pointerID;
         private bool _touched;
 
         private void Start()
         {
-            _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
+                .GetComponent<GameControllerPlayScene>();
             _isRightArrow = CompareTag("destra");
         }
 
@@ -27,11 +28,11 @@ namespace _script
             _pointerID = data.pointerId;
             if (_isRightArrow)
             {
-                _gameController.horizontalPlayerMovement = 1;
+                _gameControllerPlayScene.horizontalPlayerMovement = 1;
             }
             else
             {
-                _gameController.horizontalPlayerMovement = -1;
+                _gameControllerPlayScene.horizontalPlayerMovement = -1;
             }
         }
 
@@ -39,7 +40,7 @@ namespace _script
         {
             if (data.pointerId == _pointerID)
             {
-                _gameController.horizontalPlayerMovement = 0;
+                _gameControllerPlayScene.horizontalPlayerMovement = 0;
                 _touched = false;
             }
         }

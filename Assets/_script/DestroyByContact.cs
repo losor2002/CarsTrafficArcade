@@ -8,12 +8,13 @@ namespace _script
         public GameObject explosion;
         [FormerlySerializedAs("zombiecade")] public GameObject fallingZombie;
 
-        private GameController _gameController;
+        private GameControllerPlayScene _gameControllerPlayScene;
         private int _zombie;
 
         private void Start()
         {
-            _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
+                .GetComponent<GameControllerPlayScene>();
             _zombie = PlayerPrefs.GetInt("zombie");
         }
 
@@ -36,7 +37,7 @@ namespace _script
 
                 var position = transform.position + new Vector3(0f, 0.1f, 0f);
                 Instantiate(explosion, position, transform.rotation);
-                _gameController.GameOver();
+                _gameControllerPlayScene.GameOver();
                 Destroy(gameObject);
             }
         }

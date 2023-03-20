@@ -359,7 +359,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: freccesinistra
+        m_MethodName: SelectLeftArrows
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -792,7 +792,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Muto
+        m_MethodName: Unmute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1473,7 +1473,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: PlayB
+        m_MethodName: ShowGameModes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1687,7 +1687,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: freccecentro
+        m_MethodName: SelectCenterArrows
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2129,7 +2129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: controlSystem1
+        m_MethodName: SelectControlSystem1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2618,7 +2618,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Ok
+        m_MethodName: CloseRewardTable
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2752,7 +2752,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: controlSystem2
+        m_MethodName: SelectControlSystem2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3306,7 +3306,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Tutorial
+        m_MethodName: ResetTutorials
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4781,7 +4781,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Volume
+        m_MethodName: Mute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5110,7 +5110,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Uscire
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5324,7 +5324,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: freccedestra
+        m_MethodName: SelectRightArrows
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5806,7 +5806,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: menu
+        m_MethodName: ShowOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6255,7 +6255,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: back
+        m_MethodName: ShowMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6737,7 +6737,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: back
+        m_MethodName: ShowMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7463,7 +7463,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: startGame
+        m_MethodName: StartClassicMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7677,7 +7677,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Cars
+        m_MethodName: LoadCarSelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8129,7 +8129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: zombiestart
+        m_MethodName: StartZombieMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8775,7 +8775,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9963119}
         m_TargetAssemblyTypeName: 
-        m_MethodName: controlSystem
+        m_MethodName: SelectControlSystem0
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

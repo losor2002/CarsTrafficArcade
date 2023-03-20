@@ -13,21 +13,21 @@ namespace _script
         [FormerlySerializedAs("spawntime1")] public float spawnInterval1;
         [FormerlySerializedAs("spawntime2")] public float spawnInterval2;
 
-        private GameController _gameController;
+        private GameControllerPlayScene _gameControllerPlayScene;
 
         private void Start()
         {
-            _gameController = GetComponent<GameController>();
+            _gameControllerPlayScene = GetComponent<GameControllerPlayScene>();
             StartCoroutine(Spawn());
         }
 
         private IEnumerator Spawn()
         {
-            while (!_gameController.gameOver)
+            while (!_gameControllerPlayScene.gameOver)
             {
                 Instantiate(track, spawnPosition, spawnRotation);
 
-                spawnInterval = _gameController.score switch
+                spawnInterval = _gameControllerPlayScene.score switch
                 {
                     >= 30 and < 50 => spawnInterval1,
                     >= 50 => spawnInterval2,

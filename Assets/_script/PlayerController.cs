@@ -27,7 +27,7 @@ namespace _script
         private Quaternion _accelerometerCalibrationQuaternion;
         private int _controlSystem;
         private TouchAreaButton _fireButton;
-        private GameController _gameController;
+        private GameControllerPlayScene _gameControllerPlayScene;
         private bool _isGunActive;
         private float _nextFireTime;
         private Rigidbody _rigidbody;
@@ -44,7 +44,8 @@ namespace _script
             var touchpadObject = GameObject.FindGameObjectWithTag("Mzone");
             _touchpad = touchpadObject.GetComponent<Touchpad>();
             _fireButton = touchpadObject.GetComponent<TouchAreaButton>();
-            _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
+                .GetComponent<GameControllerPlayScene>();
 
             _isGunActive = shotSpawn != null;
             _rigidbody = GetComponent<Rigidbody>();
@@ -52,7 +53,7 @@ namespace _script
 
         private void Update()
         {
-            if (_isGunActive && !_gameController.pause && _fireButton.IsPressed() && Time.time > _nextFireTime)
+            if (_isGunActive && !_gameControllerPlayScene.pause && _fireButton.IsPressed() && Time.time > _nextFireTime)
             {
                 _nextFireTime = Time.time + fireRate;
                 Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
@@ -62,7 +63,7 @@ namespace _script
 
         private void FixedUpdate()
         {
-            switch (_gameController.score)
+            switch (_gameControllerPlayScene.score)
             {
                 case >= 30 and < 50:
                     speed = speed1;
@@ -92,8 +93,8 @@ namespace _script
                 }
                 case 2:
                 {
-                    var movement = new Vector3(_gameController.horizontalPlayerMovement, 0.0f,
-                        _gameController.verticalPlayerMovement);
+                    var movement = new Vector3(_gameControllerPlayScene.horizontalPlayerMovement, 0.0f,
+                        _gameControllerPlayScene.verticalPlayerMovement);
                     _rigidbody.velocity = movement * speed;
                     break;
                 }

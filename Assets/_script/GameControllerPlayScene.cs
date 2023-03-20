@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace _script
 {
-    public class GameController : MonoBehaviour
+    public class GameControllerPlayScene : MonoBehaviour
     {
         public int score;
         public int scorePerScoreTime;
@@ -379,7 +379,7 @@ namespace _script
             muteButton.SetActive(false);
         }
 
-        public void Menu()
+        public void LoadMenu()
         {
             UpdateHighScoreAndCr();
             SceneManager.LoadScene("menu");

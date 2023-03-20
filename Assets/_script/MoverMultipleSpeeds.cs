@@ -8,25 +8,26 @@ namespace _script
         public float speed1;
         public float speed2;
 
-        private GameController _gameController;
+        private GameControllerPlayScene _gameControllerPlayScene;
         private Rigidbody _rigidbody;
 
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
+                .GetComponent<GameControllerPlayScene>();
         }
 
         private void Update()
         {
-            _rigidbody.velocity = _gameController.score switch
+            _rigidbody.velocity = _gameControllerPlayScene.score switch
             {
                 >= 30 and < 50 => transform.forward * speed1,
                 >= 50 => transform.forward * speed2,
                 _ => transform.forward * speed
             };
 
-            if (_gameController.gameOver)
+            if (_gameControllerPlayScene.gameOver)
             {
                 if (PlayerPrefs.GetInt("zombie") == 1)
                 {
