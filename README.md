@@ -14,7 +14,8 @@ This section will introduce context information for the project.
 
 ## Introduction
 
-Android App made with Unity when I started coding, for this reason the code is not yet properly structured and needs refactoring, but it is fully functional.
+Android App made with Unity. <br>
+This is my first project that I update every now and then with new features.
 
 ## Author
 
