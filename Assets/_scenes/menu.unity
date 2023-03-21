@@ -229,35 +229,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636b3d91b5f896c4bac3a98b129d2d9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayButt: {fileID: 261859124}
-  zombiebutt: {fileID: 1843403216}
-  ClassicButt: {fileID: 1727869542}
-  menubutton: {fileID: 1310758824}
-  controlsysimg: {fileID: 550560189}
-  sceltafrecce: {fileID: 527707688}
-  backbutt: {fileID: 1518584401}
-  carsbutt: {fileID: 1745818085}
-  tutorialButt: {fileID: 688833422}
-  volumeButt: {fileID: 1114092264}
-  mutoButt: {fileID: 69898879}
-  tabella: {fileID: 806374516}
-  quad1: {fileID: 1505643776}
-  quad2: {fileID: 812111303}
-  quad3: {fileID: 1391729475}
-  quad4: {fileID: 841940671}
-  quad5: {fileID: 1958953120}
-  quad6: {fileID: 1598427188}
-  quad7: {fileID: 455489051}
-  uscita: {fileID: 1721101008}
-  controlsys: {fileID: 1968576449}
-  controlsys1: {fileID: 407149941}
-  controlsys2: {fileID: 490655663}
-  frdestra: {fileID: 1201425781}
-  frsinistra: {fileID: 14961395}
-  frcentro: {fileID: 334485059}
-  highscoretx: {fileID: 1315810618}
-  scoretx: {fileID: 1937825204}
-  crtx: {fileID: 313413629}
+  playButton: {fileID: 261859124}
+  zombieModeButton: {fileID: 1843403216}
+  classicModeButton: {fileID: 1727869542}
+  optionsButton: {fileID: 1310758824}
+  controlSystemSelection: {fileID: 550560189}
+  arrowsSelection: {fileID: 527707688}
+  backButton: {fileID: 1518584401}
+  carSelectionButton: {fileID: 1745818085}
+  resetTutorialButton: {fileID: 688833422}
+  volumeButton: {fileID: 1114092264}
+  muteButton: {fileID: 69898879}
+  rewardTable: {fileID: 806374516}
+  rewardQuad1: {fileID: 1505643776}
+  rewardQuad2: {fileID: 812111303}
+  rewardQuad3: {fileID: 1391729475}
+  rewardQuad4: {fileID: 841940671}
+  rewardQuad5: {fileID: 1958953120}
+  rewardQuad6: {fileID: 1598427188}
+  rewardQuad7: {fileID: 455489051}
+  quitSelection: {fileID: 1721101008}
+  controlSystem0Button: {fileID: 1968576449}
+  controlSystem1Button: {fileID: 407149941}
+  controlSystem2Button: {fileID: 490655663}
+  rightArrowsButton: {fileID: 1201425781}
+  leftArrowsButton: {fileID: 14961395}
+  centerArrowsButton: {fileID: 334485059}
+  highScoreText: {fileID: 1315810618}
+  scoreText: {fileID: 1937825204}
+  crText: {fileID: 313413629}
 --- !u!4 &9963120
 Transform:
   m_ObjectHideFlags: 0
@@ -2617,8 +2617,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9963119}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: CloseRewardTable
+        m_TargetAssemblyTypeName: _script.GameControllerMenu, Assembly-CSharp
+        m_MethodName: ShowMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

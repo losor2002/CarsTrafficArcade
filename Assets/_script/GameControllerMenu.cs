@@ -44,127 +44,38 @@ namespace _script
         [FormerlySerializedAs("crtx")] public Text crText;
 
         private AsyncOperation _asyncLoad;
-        private bool _audioButtonVisibility = true;
         private int _cr;
         private int _highScore;
-        private bool _isInMainMenu = true;
-        private bool _isInOptions;
+        private bool _isInMainMenu;
         private int _score;
         private bool _stopRewardQuadBlinking;
 
         private void Start()
         {
             Application.targetFrameRate = -1;
-
-            RewardCheck();
-
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
+
             _cr = PlayerPrefs.GetInt("cr", 0);
             _highScore = PlayerPrefs.GetInt("HighScore", 0);
             _score = PlayerPrefs.GetInt("CurrentScore", 0);
             PlayerPrefs.SetInt("kills", 0);
+
+            ShowMainMenu();
+            RewardCheck();
             AsyncLoadPlayScene();
         }
 
         private void Update()
         {
-            if (_isInMainMenu)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                highScoreText.text = "HighScore: " + _highScore;
-                scoreText.text = "Score: " + _score;
-                crText.text = "CR: " + _cr;
-
-
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (_isInMainMenu)
                 {
-                    quitSelection.SetActive(true);
-                    HideMainMenu();
+                    ShowQuitSelection();
                 }
-            }
-            else
-            {
-                highScoreText.text = "";
-                scoreText.text = "";
-                crText.text = "";
-
-                if (Input.GetKeyDown(KeyCode.Escape))
+                else
                 {
                     ShowMainMenu();
-                }
-            }
-
-            if (_audioButtonVisibility)
-            {
-                var audst = PlayerPrefs.GetInt("audst", 1);
-                if (audst == 1)
-                {
-                    AudioListener.volume = 1.0f;
-                    volumeButton.SetActive(true);
-                    muteButton.SetActive(false);
-                }
-                else
-                {
-                    AudioListener.volume = 0.0f;
-                    volumeButton.SetActive(false);
-                    muteButton.SetActive(true);
-                }
-            }
-            else
-            {
-                volumeButton.SetActive(false);
-                muteButton.SetActive(false);
-            }
-
-            if (_isInOptions)
-            {
-                var control = PlayerPrefs.GetInt("control", 2);
-
-                if (control == 2)
-                {
-                    arrowsSelection.SetActive(true);
-                }
-                else
-                {
-                    arrowsSelection.SetActive(false);
-                }
-
-
-                if (control == 0)
-                {
-                    controlSystem0Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                    controlSystem1Button.GetComponent<Image>().color = default;
-                    controlSystem2Button.GetComponent<Image>().color = default;
-                }
-                else if (control == 1)
-                {
-                    controlSystem0Button.GetComponent<Image>().color = default;
-                    controlSystem1Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                    controlSystem2Button.GetComponent<Image>().color = default;
-                }
-                else if (control == 2)
-                {
-                    controlSystem0Button.GetComponent<Image>().color = default;
-                    controlSystem1Button.GetComponent<Image>().color = default;
-                    controlSystem2Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                    var frecce = PlayerPrefs.GetInt("frecce", 2);
-                    if (frecce == 0)
-                    {
-                        rightArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                        leftArrowsButton.GetComponent<Image>().color = default;
-                        centerArrowsButton.GetComponent<Image>().color = default;
-                    }
-                    else if (frecce == 1)
-                    {
-                        rightArrowsButton.GetComponent<Image>().color = default;
-                        leftArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                        centerArrowsButton.GetComponent<Image>().color = default;
-                    }
-                    else if (frecce == 2)
-                    {
-                        rightArrowsButton.GetComponent<Image>().color = default;
-                        leftArrowsButton.GetComponent<Image>().color = default;
-                        centerArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                    }
                 }
             }
         }
@@ -193,92 +104,102 @@ namespace _script
 
         private void GiveReward(TimeSpan difference, int firstTime)
         {
-            rewardTable.SetActive(true);
             HideMainMenu();
+            _stopRewardQuadBlinking = false;
+            rewardTable.SetActive(true);
             var day = PlayerPrefs.GetInt("day", 1);
 
-            if ((difference.Days == 0 && firstTime == 0) || difference.Days > 1)
+            switch (difference.Days)
             {
-                rewardQuad1.SetActive(true);
-                StartCoroutine(BlinkRewardQuad1());
-                var c = PlayerPrefs.GetInt("cr", 0);
-                PlayerPrefs.SetInt("cr", c + 10);
-                PlayerPrefs.SetInt("ft", firstTime + 1);
-                PlayerPrefs.SetInt("day", 2);
-            }
-
-            if (difference.Days == 1)
-            {
-                if (day == 1)
+                case 0 when firstTime == 0:
+                case > 1:
                 {
-                    PlayerPrefs.SetInt("day", 2);
                     rewardQuad1.SetActive(true);
                     StartCoroutine(BlinkRewardQuad1());
                     var c = PlayerPrefs.GetInt("cr", 0);
                     PlayerPrefs.SetInt("cr", c + 10);
+                    PlayerPrefs.SetInt("ft", firstTime + 1);
+                    PlayerPrefs.SetInt("day", 2);
+                    break;
                 }
-
-                if (day == 2)
+                case 1:
                 {
-                    PlayerPrefs.SetInt("day", 3);
-                    rewardQuad2.SetActive(true);
-                    StartCoroutine(BlinkRewardQuad2());
-                    var c = PlayerPrefs.GetInt("cr", 0);
-                    PlayerPrefs.SetInt("cr", c + 20);
-                }
+                    switch (day)
+                    {
+                        case 1:
+                        {
+                            PlayerPrefs.SetInt("day", 2);
+                            rewardQuad1.SetActive(true);
+                            StartCoroutine(BlinkRewardQuad1());
+                            var c = PlayerPrefs.GetInt("cr", 0);
+                            PlayerPrefs.SetInt("cr", c + 10);
+                            break;
+                        }
+                        case 2:
+                        {
+                            PlayerPrefs.SetInt("day", 3);
+                            rewardQuad2.SetActive(true);
+                            StartCoroutine(BlinkRewardQuad2());
+                            var c = PlayerPrefs.GetInt("cr", 0);
+                            PlayerPrefs.SetInt("cr", c + 20);
+                            break;
+                        }
+                        case 3:
+                        {
+                            PlayerPrefs.SetInt("day", 4);
+                            rewardQuad3.SetActive(true);
+                            StartCoroutine(BlinkRewardQuad3());
+                            var c = PlayerPrefs.GetInt("cr", 0);
+                            PlayerPrefs.SetInt("cr", c + 30);
+                            break;
+                        }
+                        case 4:
+                        {
+                            PlayerPrefs.SetInt("day", 5);
+                            rewardQuad4.SetActive(true);
+                            StartCoroutine(BlinkRewardQuad4());
+                            var c = PlayerPrefs.GetInt("cr", 0);
+                            PlayerPrefs.SetInt("cr", c + 40);
+                            break;
+                        }
+                        case 5:
+                        {
+                            PlayerPrefs.SetInt("day", 6);
+                            rewardQuad5.SetActive(true);
+                            StartCoroutine(BlinkRewardQuad5());
+                            var c = PlayerPrefs.GetInt("cr", 0);
+                            PlayerPrefs.SetInt("cr", c + 50);
+                            break;
+                        }
+                        case 6:
+                        {
+                            PlayerPrefs.SetInt("day", 7);
+                            rewardQuad6.SetActive(true);
+                            StartCoroutine(BlinkRewardQuad6());
+                            var c = PlayerPrefs.GetInt("cr", 0);
+                            PlayerPrefs.SetInt("cr", c + 60);
+                            break;
+                        }
+                        case 7:
+                        {
+                            PlayerPrefs.SetInt("day", 1);
+                            rewardQuad7.SetActive(true);
+                            StartCoroutine(BlinkRewardQuad7());
+                            var c = PlayerPrefs.GetInt("cr", 0);
+                            PlayerPrefs.SetInt("cr", c + 70);
+                            break;
+                        }
+                    }
 
-                if (day == 3)
-                {
-                    PlayerPrefs.SetInt("day", 4);
-                    rewardQuad3.SetActive(true);
-                    StartCoroutine(BlinkRewardQuad3());
-                    var c = PlayerPrefs.GetInt("cr", 0);
-                    PlayerPrefs.SetInt("cr", c + 30);
-                }
-
-                if (day == 4)
-                {
-                    PlayerPrefs.SetInt("day", 5);
-                    rewardQuad4.SetActive(true);
-                    StartCoroutine(BlinkRewardQuad4());
-                    var c = PlayerPrefs.GetInt("cr", 0);
-                    PlayerPrefs.SetInt("cr", c + 40);
-                }
-
-                if (day == 5)
-                {
-                    PlayerPrefs.SetInt("day", 6);
-                    rewardQuad5.SetActive(true);
-                    StartCoroutine(BlinkRewardQuad5());
-                    var c = PlayerPrefs.GetInt("cr", 0);
-                    PlayerPrefs.SetInt("cr", c + 50);
-                }
-
-                if (day == 6)
-                {
-                    PlayerPrefs.SetInt("day", 7);
-                    rewardQuad6.SetActive(true);
-                    StartCoroutine(BlinkRewardQuad6());
-                    var c = PlayerPrefs.GetInt("cr", 0);
-                    PlayerPrefs.SetInt("cr", c + 60);
-                }
-
-                if (day == 7)
-                {
-                    PlayerPrefs.SetInt("day", 1);
-                    rewardQuad7.SetActive(true);
-                    StartCoroutine(BlinkRewardQuad7());
-                    var c = PlayerPrefs.GetInt("cr", 0);
-                    PlayerPrefs.SetInt("cr", c + 70);
+                    break;
                 }
             }
         }
 
-        public void CloseRewardTable()
+        private void HideRewardTable()
         {
             _stopRewardQuadBlinking = true;
             rewardTable.SetActive(false);
-            ShowMainMenu();
         }
 
         private IEnumerator BlinkRewardQuad1()
@@ -370,64 +291,40 @@ namespace _script
             _asyncLoad.allowSceneActivation = true;
         }
 
-        public void ShowOptions()
-        {
-            playButton.SetActive(false);
-            optionsButton.SetActive(false);
-            carSelectionButton.SetActive(false);
-            _audioButtonVisibility = false;
-            controlSystemSelection.SetActive(true);
-            backButton.SetActive(true);
-            resetTutorialButton.SetActive(true);
-            _isInMainMenu = false;
-            _isInOptions = true;
-        }
-
         public void SelectControlSystem0()
         {
             PlayerPrefs.SetInt("control", 0);
+            UpdateControlSystemSelection();
         }
 
         public void SelectControlSystem1()
         {
             PlayerPrefs.SetInt("control", 1);
+            UpdateControlSystemSelection();
         }
 
         public void SelectControlSystem2()
         {
             PlayerPrefs.SetInt("control", 2);
+            UpdateControlSystemSelection();
         }
 
         public void SelectRightArrows()
         {
             PlayerPrefs.SetInt("frecce", 0);
+            UpdateControlSystemSelection();
         }
 
         public void SelectLeftArrows()
         {
             PlayerPrefs.SetInt("frecce", 1);
+            UpdateControlSystemSelection();
         }
 
         public void SelectCenterArrows()
         {
             PlayerPrefs.SetInt("frecce", 2);
-        }
-
-        public void ShowMainMenu()
-        {
-            playButton.SetActive(true);
-            optionsButton.SetActive(true);
-            carSelectionButton.SetActive(true);
-            controlSystemSelection.SetActive(false);
-            backButton.SetActive(false);
-            resetTutorialButton.SetActive(false);
-            classicModeButton.SetActive(false);
-            zombieModeButton.SetActive(false);
-            quitSelection.SetActive(false);
-            arrowsSelection.SetActive(false);
-            _isInOptions = false;
-            _audioButtonVisibility = true;
-            _isInMainMenu = true;
+            UpdateControlSystemSelection();
         }
 
         public void LoadCarSelection()
@@ -442,40 +339,171 @@ namespace _script
             PlayerPrefs.SetInt("tutorialz", 0);
         }
 
-        public void Mute()
-        {
-            PlayerPrefs.SetInt("audst", 0);
-        }
-
-        public void Unmute()
-        {
-            PlayerPrefs.SetInt("audst", 1);
-        }
-
-        public void ShowGameModes()
-        {
-            zombieModeButton.SetActive(true);
-            classicModeButton.SetActive(true);
-            backButton.SetActive(true);
-            optionsButton.SetActive(false);
-            carSelectionButton.SetActive(false);
-            playButton.SetActive(false);
-            _isInMainMenu = false;
-        }
-
         public void Quit()
         {
             PlayerPrefs.Save();
             Application.Quit();
         }
 
+        public void Mute()
+        {
+            PlayerPrefs.SetInt("audst", 0);
+            AudioListener.volume = 0.0f;
+            volumeButton.SetActive(false);
+            muteButton.SetActive(true);
+        }
+
+        public void Unmute()
+        {
+            PlayerPrefs.SetInt("audst", 1);
+            AudioListener.volume = 1.0f;
+            volumeButton.SetActive(true);
+            muteButton.SetActive(false);
+        }
+
+        private void ShowAudioButton()
+        {
+            var audioState = PlayerPrefs.GetInt("audst", 1);
+            if (audioState == 1)
+            {
+                AudioListener.volume = 1.0f;
+                volumeButton.SetActive(true);
+                muteButton.SetActive(false);
+            }
+            else
+            {
+                AudioListener.volume = 0.0f;
+                volumeButton.SetActive(false);
+                muteButton.SetActive(true);
+            }
+        }
+
+        private void HideAudioButton()
+        {
+            volumeButton.SetActive(false);
+            muteButton.SetActive(false);
+        }
+
+        private void UpdateControlSystemSelection()
+        {
+            var controlSystem = PlayerPrefs.GetInt("control", 2);
+
+            arrowsSelection.SetActive(controlSystem == 2);
+
+            switch (controlSystem)
+            {
+                case 0:
+                    controlSystem0Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+                    controlSystem1Button.GetComponent<Image>().color = default;
+                    controlSystem2Button.GetComponent<Image>().color = default;
+                    break;
+                case 1:
+                    controlSystem0Button.GetComponent<Image>().color = default;
+                    controlSystem1Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+                    controlSystem2Button.GetComponent<Image>().color = default;
+                    break;
+                case 2:
+                {
+                    controlSystem0Button.GetComponent<Image>().color = default;
+                    controlSystem1Button.GetComponent<Image>().color = default;
+                    controlSystem2Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+
+                    var arrows = PlayerPrefs.GetInt("frecce", 2);
+                    switch (arrows)
+                    {
+                        case 0:
+                            rightArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+                            leftArrowsButton.GetComponent<Image>().color = default;
+                            centerArrowsButton.GetComponent<Image>().color = default;
+                            break;
+                        case 1:
+                            rightArrowsButton.GetComponent<Image>().color = default;
+                            leftArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+                            centerArrowsButton.GetComponent<Image>().color = default;
+                            break;
+                        case 2:
+                            rightArrowsButton.GetComponent<Image>().color = default;
+                            leftArrowsButton.GetComponent<Image>().color = default;
+                            centerArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+                            break;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        public void ShowOptions()
+        {
+            HideMainMenu();
+            controlSystemSelection.SetActive(true);
+            backButton.SetActive(true);
+            resetTutorialButton.SetActive(true);
+            UpdateControlSystemSelection();
+        }
+
+        private void HideOptions()
+        {
+            controlSystemSelection.SetActive(false);
+            backButton.SetActive(false);
+            resetTutorialButton.SetActive(false);
+            arrowsSelection.SetActive(false);
+        }
+
+        public void ShowMainMenu()
+        {
+            HideOptions();
+            HideGameModes();
+            HideQuitSelection();
+            HideRewardTable();
+            playButton.SetActive(true);
+            optionsButton.SetActive(true);
+            carSelectionButton.SetActive(true);
+            ShowAudioButton();
+            _isInMainMenu = true;
+            highScoreText.text = "HighScore: " + _highScore;
+            scoreText.text = "Score: " + _score;
+            crText.text = "CR: " + _cr;
+        }
+
         private void HideMainMenu()
         {
-            _isInMainMenu = false;
             playButton.SetActive(false);
             optionsButton.SetActive(false);
             carSelectionButton.SetActive(false);
-            _audioButtonVisibility = false;
+            _isInMainMenu = false;
+            HideAudioButton();
+            highScoreText.text = "";
+            scoreText.text = "";
+            crText.text = "";
+        }
+
+        public void ShowGameModes()
+        {
+            HideMainMenu();
+            ShowAudioButton();
+            zombieModeButton.SetActive(true);
+            classicModeButton.SetActive(true);
+            backButton.SetActive(true);
+        }
+
+        private void HideGameModes()
+        {
+            HideAudioButton();
+            zombieModeButton.SetActive(false);
+            classicModeButton.SetActive(false);
+            backButton.SetActive(false);
+        }
+
+        private void ShowQuitSelection()
+        {
+            HideMainMenu();
+            quitSelection.SetActive(true);
+        }
+
+        private void HideQuitSelection()
+        {
+            quitSelection.SetActive(false);
         }
     }
 }
