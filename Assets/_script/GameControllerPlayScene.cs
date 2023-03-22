@@ -20,9 +20,7 @@ namespace _script
         public int scoreSpawnAcceleration1;
 
         [FormerlySerializedAs("spawnwait1")] public float spawnWait;
-
         [FormerlySerializedAs("spawnwait2")] public float spawnWait1;
-
         [FormerlySerializedAs("spawnwait3")] public float spawnWait2;
 
         [FormerlySerializedAs("spawnwaitzombie1")]
@@ -36,64 +34,42 @@ namespace _script
 
         public float horizontalPlayerMovement;
         public float verticalPlayerMovement;
-
         public bool gameOver;
         public bool pause;
 
         [FormerlySerializedAs("avviso")] public GameObject alert;
-
         [FormerlySerializedAs("frecce")] public GameObject controlArrows;
-
         [FormerlySerializedAs("freccedestra")] public GameObject controlArrowsRight;
 
         [FormerlySerializedAs("freccesinistra")]
         public GameObject controlArrowsLeft;
 
         [FormerlySerializedAs("freccecentro")] public GameObject controlArrowsCenter;
-
         [FormerlySerializedAs("volumeButt")] public GameObject volumeButton;
-
         [FormerlySerializedAs("mutoButt")] public GameObject muteButton;
-
         [FormerlySerializedAs("resumebutt")] public GameObject resumeButton;
-
         [FormerlySerializedAs("menubutt")] public GameObject menuButton;
-
         [FormerlySerializedAs("pausebutt")] public GameObject pauseButton;
-
         public GameObject[] hazards;
-
         [FormerlySerializedAs("spawnvalues")] public Vector3[] hazardsSpawnPositions;
-
         [FormerlySerializedAs("zombieprefab")] public GameObject zombie;
 
         [FormerlySerializedAs("spawnvalueszombie")]
         public Vector3 zombieSpawnPosition;
 
         [FormerlySerializedAs("cars")] public GameObject[] playerCars;
-
         [FormerlySerializedAs("carSpawn")] public Vector3[] playerCarsSpawnPositions;
-
         [FormerlySerializedAs("scoretext")] public Text scoreText;
-
         [FormerlySerializedAs("gameovertext")] public Text gameOverText;
-
         [FormerlySerializedAs("tutorialtx")] public Text tutorialText;
-
         [FormerlySerializedAs("tutorialtxz")] public Text tutorialTextZombieMode;
-
         [FormerlySerializedAs("Killtx")] public Text killsText;
-
         [FormerlySerializedAs("sfiorare")] public Text touchedText;
-
         [FormerlySerializedAs("avvisotx")] public Text alertText;
 
         private AudioSource _activeAudio;
-
         private bool _alertBool;
-
         private int _controlSystem;
-
         private int _kills;
         private int _zombieMode;
         private AudioSource _zombieRoar;
@@ -103,53 +79,56 @@ namespace _script
         {
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
-            _controlSystem = PlayerPrefs.GetInt("control", 2);
-            switch (_controlSystem)
+            _zombieMode = PlayerPrefs.GetInt("zombie");
+            if (_zombieMode == 1)
             {
-                case 0:
+                _controlSystem = PlayerPrefs.GetInt("control", 2);
+                switch (_controlSystem)
                 {
-                    var t = PlayerPrefs.GetInt("tutorial1", 0);
-                    if (t == 0)
+                    case 0:
                     {
-                        StartCoroutine(Tutorial());
-                        PlayerPrefs.SetInt("tutorial1", 1);
-                    }
+                        var t = PlayerPrefs.GetInt("tutorial1", 0);
+                        if (t == 0)
+                        {
+                            StartCoroutine(Tutorial());
+                            PlayerPrefs.SetInt("tutorial1", 1);
+                        }
 
-                    break;
-                }
-                case 1:
-                {
-                    var t = PlayerPrefs.GetInt("tutorial2", 0);
-                    if (t == 0)
+                        break;
+                    }
+                    case 1:
                     {
-                        StartCoroutine(Tutorial());
-                        PlayerPrefs.SetInt("tutorial2", 1);
-                    }
+                        var t = PlayerPrefs.GetInt("tutorial2", 0);
+                        if (t == 0)
+                        {
+                            StartCoroutine(Tutorial());
+                            PlayerPrefs.SetInt("tutorial2", 1);
+                        }
 
-                    break;
-                }
-                case 2:
-                {
-                    switch (PlayerPrefs.GetInt("frecce", 2))
+                        break;
+                    }
+                    case 2:
                     {
-                        case 0:
-                            controlArrowsRight.SetActive(true);
-                            break;
-                        case 1:
-                            controlArrowsLeft.SetActive(true);
-                            break;
-                        case 2:
-                            controlArrowsCenter.SetActive(true);
-                            break;
-                    }
+                        switch (PlayerPrefs.GetInt("frecce", 2))
+                        {
+                            case 0:
+                                controlArrowsRight.SetActive(true);
+                                break;
+                            case 1:
+                                controlArrowsLeft.SetActive(true);
+                                break;
+                            case 2:
+                                controlArrowsCenter.SetActive(true);
+                                break;
+                        }
 
-                    break;
+                        break;
+                    }
                 }
             }
 
             var selectedCar = PlayerPrefs.GetInt("car", 0);
 
-            _zombieMode = PlayerPrefs.GetInt("zombie");
             if (_zombieMode == 1)
             {
                 selectedCar = 5;
@@ -193,14 +172,17 @@ namespace _script
                 StartCoroutine(ZombieSound());
             }
 
-            if (PlayerPrefs.GetInt("Avviso", 0) == 0)
+            if (_zombieMode == 1)
             {
-                ControlSystemAlert();
-                PlayerPrefs.SetInt("Avviso", 1);
-            }
-            else
-            {
-                _alertBool = true;
+                if (PlayerPrefs.GetInt("Avviso", 0) == 0)
+                {
+                    ControlSystemAlert();
+                    PlayerPrefs.SetInt("Avviso", 1);
+                }
+                else
+                {
+                    _alertBool = true;
+                }
             }
         }
 

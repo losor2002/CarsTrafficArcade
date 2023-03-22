@@ -26,15 +26,19 @@ namespace _script
 
         private Quaternion _accelerometerCalibrationQuaternion;
         private int _controlSystem;
+        private Vector3 _endPosition;
         private TouchAreaButton _fireButton;
         private GameControllerPlayScene _gameControllerPlayScene;
         private bool _isGunActive;
+        private bool _isMoving;
         private float _nextFireTime;
         private Rigidbody _rigidbody;
         private Touchpad _touchpad;
+        private int _zombieMode;
 
         private void Start()
         {
+            _zombieMode = PlayerPrefs.GetInt("zombie");
             _controlSystem = PlayerPrefs.GetInt("control", 2);
             if (_controlSystem == 0)
             {
@@ -75,29 +79,70 @@ namespace _script
                     break;
             }
 
-            switch (_controlSystem)
+            if (_zombieMode == 0)
             {
-                case 0:
+                if (!_isMoving)
                 {
-                    var acceleration = FixedAcceleration(Input.acceleration);
-                    var movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
-                    _rigidbody.velocity = movement * (speed * 1.5f);
-                    break;
+                    var horizontalDiscreteMovement = _touchpad.GetHorizontalDiscreteMovement();
+                    if (horizontalDiscreteMovement != 0)
+                    {
+                        _endPosition = transform.position +
+                                       new Vector3(2.59f * horizontalDiscreteMovement, 0.0f, 0.0f);
+                        if (_endPosition.x <= boundary.xMax && _endPosition.x >= boundary.xMin)
+                        {
+                            _isMoving = true;
+                            transform.position = Vector3.MoveTowards(transform.position, _endPosition,
+                                speed * Time.fixedDeltaTime);
+                            _rigidbody.rotation =
+                                Quaternion.Euler(0.0f, horizontalDiscreteMovement * speed * tilt, 0.0f);
+                        }
+                    }
+                    else
+                    {
+                        var direction = _touchpad.GetDirection();
+                        var movement = new Vector3(0.0f, 0.0f, direction.y);
+                        _rigidbody.velocity = movement * speed;
+                    }
                 }
-                case 1:
+                else
                 {
-                    var direction = _touchpad.GetDirection();
-                    var movement = new Vector3(direction.x, 0.0f, direction.y);
-                    _rigidbody.velocity = movement * speed;
-                    break;
+                    transform.position = Vector3.MoveTowards(transform.position, _endPosition,
+                        speed * Time.fixedDeltaTime);
+                    if (transform.position == _endPosition)
+                    {
+                        _isMoving = false;
+                        _rigidbody.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                    }
                 }
-                case 2:
+            }
+            else
+            {
+                switch (_controlSystem)
                 {
-                    var movement = new Vector3(_gameControllerPlayScene.horizontalPlayerMovement, 0.0f,
-                        _gameControllerPlayScene.verticalPlayerMovement);
-                    _rigidbody.velocity = movement * speed;
-                    break;
+                    case 0:
+                    {
+                        var acceleration = FixedAcceleration(Input.acceleration);
+                        var movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
+                        _rigidbody.velocity = movement * (speed * 1.5f);
+                        break;
+                    }
+                    case 1:
+                    {
+                        var direction = _touchpad.GetDirection();
+                        var movement = new Vector3(direction.x, 0.0f, direction.y);
+                        _rigidbody.velocity = movement * speed;
+                        break;
+                    }
+                    case 2:
+                    {
+                        var movement = new Vector3(_gameControllerPlayScene.horizontalPlayerMovement, 0.0f,
+                            _gameControllerPlayScene.verticalPlayerMovement);
+                        _rigidbody.velocity = movement * speed;
+                        break;
+                    }
                 }
+
+                _rigidbody.rotation = Quaternion.Euler(0.0f, _rigidbody.velocity.x * tilt, 0.0f);
             }
 
             _rigidbody.position = new Vector3
@@ -106,8 +151,6 @@ namespace _script
                 0.0f,
                 Mathf.Clamp(_rigidbody.position.z, boundary.zMin, boundary.zMax)
             );
-
-            _rigidbody.rotation = Quaternion.Euler(0.0f, _rigidbody.velocity.x * tilt, 0.0f);
         }
 
         private void AccelerometerCalibration()
