@@ -10,15 +10,17 @@ namespace _script
 
         private GameControllerPlayScene _gameControllerPlayScene;
         private Rigidbody _rigidbody;
+        private bool _zombieMode;
 
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
             _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
                 .GetComponent<GameControllerPlayScene>();
+            _zombieMode = PlayerPrefs.GetInt("zombie") != 0;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _rigidbody.velocity = _gameControllerPlayScene.score switch
             {
@@ -29,7 +31,7 @@ namespace _script
 
             if (_gameControllerPlayScene.gameOver)
             {
-                if (PlayerPrefs.GetInt("zombie") == 1)
+                if (_zombieMode)
                 {
                     _rigidbody.velocity = CompareTag("pista") || CompareTag("zombieCade")
                         ? Vector3.zero
