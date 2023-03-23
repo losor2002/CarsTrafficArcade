@@ -91,6 +91,7 @@ namespace _script
                         if (_endPosition.x <= boundary.xMax && _endPosition.x >= boundary.xMin)
                         {
                             _isMoving = true;
+                            _rigidbody.velocity = new Vector3();
                             transform.position = Vector3.MoveTowards(transform.position, _endPosition,
                                 speed * Time.fixedDeltaTime);
                             _rigidbody.rotation =
