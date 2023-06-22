@@ -32,13 +32,12 @@ namespace _script
         private bool _isGunActive;
         private bool _isMoving;
         private float _nextFireTime;
-        private Rigidbody _rigidbody;
         private Touchpad _touchpad;
-        private int _zombieMode;
+        private bool _zombieMode;
 
         private void Start()
         {
-            _zombieMode = PlayerPrefs.GetInt("zombie");
+            _zombieMode = PlayerPrefs.GetInt("zombie") != 0;
             _controlSystem = PlayerPrefs.GetInt("control", 2);
             if (_controlSystem == 0)
             {
@@ -52,7 +51,6 @@ namespace _script
                 .GetComponent<GameControllerPlayScene>();
 
             _isGunActive = shotSpawn != null;
-            _rigidbody = GetComponent<Rigidbody>();
         }
 
         private void Update()
@@ -63,10 +61,7 @@ namespace _script
                 Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
                 muzzleFlash.Play();
             }
-        }
 
-        private void FixedUpdate()
-        {
             switch (_gameControllerPlayScene.score)
             {
                 case >= 30 and < 50:
@@ -79,7 +74,7 @@ namespace _script
                     break;
             }
 
-            if (_zombieMode == 0)
+            if (!_zombieMode)
             {
                 if (!_isMoving)
                 {
@@ -91,10 +86,9 @@ namespace _script
                         if (_endPosition.x <= boundary.xMax && _endPosition.x >= boundary.xMin)
                         {
                             _isMoving = true;
-                            _rigidbody.velocity = new Vector3();
                             transform.position = Vector3.MoveTowards(transform.position, _endPosition,
-                                speed * Time.fixedDeltaTime);
-                            _rigidbody.rotation =
+                                speed * Time.deltaTime);
+                            transform.rotation =
                                 Quaternion.Euler(0.0f, horizontalDiscreteMovement * speed * tilt, 0.0f);
                         }
                     }
@@ -102,55 +96,56 @@ namespace _script
                     {
                         var direction = _touchpad.GetDirection();
                         var movement = new Vector3(0.0f, 0.0f, direction.y);
-                        _rigidbody.velocity = movement * speed;
+                        transform.position += movement * (speed * Time.deltaTime);
                     }
                 }
                 else
                 {
                     transform.position = Vector3.MoveTowards(transform.position, _endPosition,
-                        speed * Time.fixedDeltaTime);
+                        speed * Time.deltaTime);
                     if (transform.position == _endPosition)
                     {
                         _isMoving = false;
-                        _rigidbody.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                        transform.rotation = Quaternion.identity;
                     }
                 }
             }
             else
             {
+                var movement = Vector3.zero;
                 switch (_controlSystem)
                 {
                     case 0:
                     {
                         var acceleration = FixedAcceleration(Input.acceleration);
-                        var movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
-                        _rigidbody.velocity = movement * (speed * 1.5f);
+                        movement = new Vector3(acceleration.x, 0.0f, acceleration.y) * 1.5f;
                         break;
                     }
                     case 1:
                     {
                         var direction = _touchpad.GetDirection();
-                        var movement = new Vector3(direction.x, 0.0f, direction.y);
-                        _rigidbody.velocity = movement * speed;
+                        movement = new Vector3(direction.x, 0.0f, direction.y);
                         break;
                     }
                     case 2:
                     {
-                        var movement = new Vector3(_gameControllerPlayScene.horizontalPlayerMovement, 0.0f,
+                        movement = new Vector3(_gameControllerPlayScene.horizontalPlayerMovement, 0.0f,
                             _gameControllerPlayScene.verticalPlayerMovement);
-                        _rigidbody.velocity = movement * speed;
                         break;
                     }
                 }
 
-                _rigidbody.rotation = Quaternion.Euler(0.0f, _rigidbody.velocity.x * tilt, 0.0f);
+                var velocity = movement * speed;
+                transform.position += velocity * Time.deltaTime;
+                transform.rotation = Quaternion.Euler(0.0f, velocity.x * tilt, 0.0f);
             }
 
-            _rigidbody.position = new Vector3
+            var position = transform.position;
+            transform.position = new Vector3
             (
-                Mathf.Clamp(_rigidbody.position.x, boundary.xMin, boundary.xMax),
-                0.0f,
-                Mathf.Clamp(_rigidbody.position.z, boundary.zMin, boundary.zMax)
+                Mathf.Clamp(position.x, boundary.xMin, boundary.xMax),
+                position.y,
+                Mathf.Clamp(position.z, boundary.zMin, boundary.zMax)
             );
         }
 
