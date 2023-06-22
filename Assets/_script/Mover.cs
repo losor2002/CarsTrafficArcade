@@ -6,9 +6,9 @@ namespace _script
     {
         public float speed;
 
-        private void Start()
+        private void Update()
         {
-            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            transform.Translate(Vector3.forward * (speed * Time.deltaTime));
         }
     }
 }

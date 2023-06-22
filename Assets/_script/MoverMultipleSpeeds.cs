@@ -9,38 +9,40 @@ namespace _script
         public float speed2;
 
         private GameControllerPlayScene _gameControllerPlayScene;
-        private Rigidbody _rigidbody;
         private bool _zombieMode;
 
         private void Start()
         {
-            _rigidbody = GetComponent<Rigidbody>();
             _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
                 .GetComponent<GameControllerPlayScene>();
             _zombieMode = PlayerPrefs.GetInt("zombie") != 0;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            _rigidbody.velocity = _gameControllerPlayScene.score switch
+            if (!_gameControllerPlayScene.gameOver)
             {
-                >= 30 and < 50 => transform.forward * speed1,
-                >= 50 => transform.forward * speed2,
-                _ => transform.forward * speed
-            };
-
-            if (_gameControllerPlayScene.gameOver)
+                var currentSpeed = _gameControllerPlayScene.score switch
+                {
+                    >= 30 and < 50 => speed1,
+                    >= 50 => speed2,
+                    _ => speed
+                };
+                transform.position += Vector3.forward * (currentSpeed * Time.deltaTime);
+            }
+            else
             {
+                Vector3 movement;
                 if (_zombieMode)
                 {
-                    _rigidbody.velocity = CompareTag("pista") || CompareTag("zombieCade")
-                        ? Vector3.zero
-                        : new Vector3(0f, 0f, -1f);
+                    movement = CompareTag("pista") || CompareTag("zombieCade") ? Vector3.zero : Vector3.back;
                 }
                 else
                 {
-                    _rigidbody.velocity = CompareTag("pista") ? Vector3.zero : new Vector3(0f, 0f, 10f);
+                    movement = CompareTag("pista") ? Vector3.zero : Vector3.forward * 10;
                 }
+
+                transform.position += movement * Time.deltaTime;
             }
         }
     }
