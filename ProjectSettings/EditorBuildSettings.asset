@@ -6,12 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_scenes/menu.unity
+    path: Assets/_scenes/menu/menu.unity
     guid: b2c7c2baf0ddb1941afb548292e490aa
   - enabled: 1
-    path: Assets/_scenes/scena1.unity
+    path: Assets/_scenes/scena1/scena1.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/_scenes/cars.unity
+    path: Assets/_scenes/cars/cars.unity
     guid: 63ac92ce38355c54aa9f75b2da8bd45d
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

@@ -77,7 +77,7 @@ namespace _script
 
         private void Start()
         {
-            Application.targetFrameRate = Screen.currentResolution.refreshRate;
+            Application.targetFrameRate = Mathf.CeilToInt((float) Screen.currentResolution.refreshRateRatio.value);
 
             _zombieMode = PlayerPrefs.GetInt("zombie");
             if (_zombieMode == 1)
