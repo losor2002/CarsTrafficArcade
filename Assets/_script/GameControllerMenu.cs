@@ -390,41 +390,52 @@ namespace _script
 
             arrowsSelection.SetActive(controlSystem == 2);
 
+            var transparentButtonColor = controlSystem0Button.GetComponent<Image>().color;
+            transparentButtonColor.a = 0.4f;
+            var opaqueButtonColor = transparentButtonColor;
+            opaqueButtonColor.a = 1.0f;
+
             switch (controlSystem)
             {
                 case 0:
-                    controlSystem0Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                    controlSystem1Button.GetComponent<Image>().color = default;
-                    controlSystem2Button.GetComponent<Image>().color = default;
+                    controlSystem0Button.GetComponent<Image>().color = opaqueButtonColor;
+                    controlSystem1Button.GetComponent<Image>().color = transparentButtonColor;
+                    controlSystem2Button.GetComponent<Image>().color = transparentButtonColor;
                     break;
                 case 1:
-                    controlSystem0Button.GetComponent<Image>().color = default;
-                    controlSystem1Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                    controlSystem2Button.GetComponent<Image>().color = default;
+                    controlSystem0Button.GetComponent<Image>().color = transparentButtonColor;
+                    controlSystem1Button.GetComponent<Image>().color = opaqueButtonColor;
+                    controlSystem2Button.GetComponent<Image>().color = transparentButtonColor;
                     break;
                 case 2:
                 {
-                    controlSystem0Button.GetComponent<Image>().color = default;
-                    controlSystem1Button.GetComponent<Image>().color = default;
-                    controlSystem2Button.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+                    controlSystem0Button.GetComponent<Image>().color = transparentButtonColor;
+                    controlSystem1Button.GetComponent<Image>().color = transparentButtonColor;
+                    controlSystem2Button.GetComponent<Image>().color = opaqueButtonColor;
 
                     var arrows = PlayerPrefs.GetInt("frecce", 2);
+                    
+                    transparentButtonColor = rightArrowsButton.GetComponent<Image>().color;
+                    transparentButtonColor.a = 0.4f;
+                    opaqueButtonColor = transparentButtonColor;
+                    opaqueButtonColor.a = 1.0f;
+                    
                     switch (arrows)
                     {
                         case 0:
-                            rightArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                            leftArrowsButton.GetComponent<Image>().color = default;
-                            centerArrowsButton.GetComponent<Image>().color = default;
+                            rightArrowsButton.GetComponent<Image>().color = opaqueButtonColor;
+                            leftArrowsButton.GetComponent<Image>().color = transparentButtonColor;
+                            centerArrowsButton.GetComponent<Image>().color = transparentButtonColor;
                             break;
                         case 1:
-                            rightArrowsButton.GetComponent<Image>().color = default;
-                            leftArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
-                            centerArrowsButton.GetComponent<Image>().color = default;
+                            rightArrowsButton.GetComponent<Image>().color = transparentButtonColor;
+                            leftArrowsButton.GetComponent<Image>().color = opaqueButtonColor;
+                            centerArrowsButton.GetComponent<Image>().color = transparentButtonColor;
                             break;
                         case 2:
-                            rightArrowsButton.GetComponent<Image>().color = default;
-                            leftArrowsButton.GetComponent<Image>().color = default;
-                            centerArrowsButton.GetComponent<Image>().color = new Color32(156, 156, 156, 255);
+                            rightArrowsButton.GetComponent<Image>().color = transparentButtonColor;
+                            leftArrowsButton.GetComponent<Image>().color = transparentButtonColor;
+                            centerArrowsButton.GetComponent<Image>().color = opaqueButtonColor;
                             break;
                     }
 

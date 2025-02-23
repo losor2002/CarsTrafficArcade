@@ -404,7 +404,7 @@ namespace _script
         public void Touched()
         {
             score += 3;
-            touchedText.text = "TOUCHED +3";
+            touchedText.text = "Touched +3";
             StartCoroutine(TouchedCoroutine());
         }
 
