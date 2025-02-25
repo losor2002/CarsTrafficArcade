@@ -52,9 +52,10 @@ namespace _script
 
         private void Start()
         {
-            Application.targetFrameRate = -1;
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
-
+            
             _cr = PlayerPrefs.GetInt("cr", 0);
             _highScore = PlayerPrefs.GetInt("HighScore", 0);
             _score = PlayerPrefs.GetInt("CurrentScore", 0);

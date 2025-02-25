@@ -77,8 +77,8 @@ namespace _script
 
         private void Start()
         {
-            Application.targetFrameRate = Mathf.CeilToInt((float) Screen.currentResolution.refreshRateRatio.value);
-
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            
             _zombieMode = PlayerPrefs.GetInt("zombie");
             if (_zombieMode == 1)
             {
@@ -156,11 +156,9 @@ namespace _script
                 zombieAudio.Play();
                 _activeAudio = zombieAudio;
             }
-
-            Time.timeScale = 1.0f;
+            
             scoreText.text = "Score: " + score;
             killsText.text = "";
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
             StartCoroutine(UpdateScore());
             if (_zombieMode == 0)
             {
@@ -304,7 +302,6 @@ namespace _script
             pauseButton.SetActive(false);
             controlArrows.SetActive(false);
             yield return new WaitForSeconds(1.4f);
-            Time.timeScale = 0.0f;
             _activeAudio.Stop();
             UpdateHighScoreAndCr();
             SceneManager.LoadScene("menu");
@@ -329,7 +326,6 @@ namespace _script
 
             Time.timeScale = 0.0f;
             _activeAudio.Pause();
-            Screen.sleepTimeout = SleepTimeout.SystemSetting;
 
             controlArrows.SetActive(false);
             pauseButton.SetActive(false);
@@ -351,7 +347,6 @@ namespace _script
 
             Time.timeScale = 1.0f;
             _activeAudio.Play();
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             controlArrows.SetActive(true);
             pauseButton.SetActive(true);
@@ -363,6 +358,7 @@ namespace _script
 
         public void LoadMenu()
         {
+            Time.timeScale = 1.0f;
             UpdateHighScoreAndCr();
             SceneManager.LoadScene("menu");
         }
@@ -436,7 +432,6 @@ namespace _script
             _activeAudio.Pause();
             controlArrows.SetActive(false);
             pauseButton.SetActive(false);
-            Screen.sleepTimeout = SleepTimeout.SystemSetting;
             var control = _controlSystem switch
             {
                 0 => "ACCELEROMETER",
@@ -456,7 +451,6 @@ namespace _script
             _activeAudio.Play();
             controlArrows.SetActive(true);
             pauseButton.SetActive(true);
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
             _alertBool = true;
         }
     }
