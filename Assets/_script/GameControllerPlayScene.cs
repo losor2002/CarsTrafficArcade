@@ -74,6 +74,8 @@ namespace _script
         private int _zombieMode;
         private AudioSource _zombieRoar;
         private AudioSource _zombieSound;
+        
+        private AsyncOperation _asyncLoad;
 
         private void Start()
         {
@@ -182,6 +184,14 @@ namespace _script
                     _alertBool = true;
                 }
             }
+            
+            AsyncLoadMenu();
+        }
+        
+        private void AsyncLoadMenu()
+        {
+            _asyncLoad = SceneManager.LoadSceneAsync("menu");
+            _asyncLoad.allowSceneActivation = false;
         }
 
         private void Update()
@@ -303,8 +313,7 @@ namespace _script
             controlArrows.SetActive(false);
             yield return new WaitForSeconds(1.4f);
             _activeAudio.Stop();
-            UpdateHighScoreAndCr();
-            SceneManager.LoadScene("menu");
+            LoadMenu();
         }
 
         private void UpdateHighScoreAndCr()
@@ -360,7 +369,7 @@ namespace _script
         {
             Time.timeScale = 1.0f;
             UpdateHighScoreAndCr();
-            SceneManager.LoadScene("menu");
+            _asyncLoad.allowSceneActivation = true;
         }
 
         private IEnumerator Tutorial()
