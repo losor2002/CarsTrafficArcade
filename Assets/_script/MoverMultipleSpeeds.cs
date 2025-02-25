@@ -14,10 +14,8 @@ namespace _script
 
         private void Start()
         {
-            _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
-                .GetComponent<GameControllerPlayScene>();
+            _gameControllerPlayScene = FindAnyObjectByType<GameControllerPlayScene>();
             _zombieMode = PlayerPrefs.GetInt("zombie") != 0;
-
             _randomIncrement = Random.Range(-1.5f, 0.0f);
         }
 

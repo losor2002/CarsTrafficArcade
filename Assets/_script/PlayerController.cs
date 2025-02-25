@@ -43,12 +43,10 @@ namespace _script
             {
                 AccelerometerCalibration();
             }
-
-            var touchpadObject = GameObject.FindGameObjectWithTag("Mzone");
-            _touchpad = touchpadObject.GetComponent<Touchpad>();
-            _fireButton = touchpadObject.GetComponent<TouchAreaButton>();
-            _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
-                .GetComponent<GameControllerPlayScene>();
+            
+            _touchpad = FindAnyObjectByType<Touchpad>();
+            _fireButton = FindAnyObjectByType<TouchAreaButton>();
+            _gameControllerPlayScene = FindAnyObjectByType<GameControllerPlayScene>();
 
             _isGunActive = shotSpawn != null;
         }

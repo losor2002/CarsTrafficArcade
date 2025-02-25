@@ -12,8 +12,7 @@ namespace _script
 
         private void Start()
         {
-            _gameControllerPlayScene = GameObject.FindGameObjectWithTag("GameController")
-                .GetComponent<GameControllerPlayScene>();
+            _gameControllerPlayScene = FindAnyObjectByType<GameControllerPlayScene>();
             _isRightArrow = CompareTag("destra");
         }
 
