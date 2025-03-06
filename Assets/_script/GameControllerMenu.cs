@@ -43,7 +43,7 @@ namespace _script
         [FormerlySerializedAs("scoretx")] public Text scoreText;
         [FormerlySerializedAs("crtx")] public Text crText;
 
-        private AsyncOperation _asyncLoad;
+        private AsyncOperation _asyncLoadPlayScene;
         private int _cr;
         private int _highScore;
         private bool _isInMainMenu;
@@ -63,7 +63,7 @@ namespace _script
 
             ShowMainMenu();
             RewardCheck();
-            AsyncLoadPlayScene();
+            _asyncLoadPlayScene = Scenes.LoadSceneAsync(Scenes.PlayScene);
         }
 
         private void Update()
@@ -79,12 +79,6 @@ namespace _script
                     ShowMainMenu();
                 }
             }
-        }
-
-        private void AsyncLoadPlayScene()
-        {
-            _asyncLoad = SceneManager.LoadSceneAsync("scena1");
-            _asyncLoad.allowSceneActivation = false;
         }
 
         private void RewardCheck()
@@ -283,13 +277,13 @@ namespace _script
         public void StartClassicMode()
         {
             PlayerPrefs.SetInt("zombie", 0);
-            _asyncLoad.allowSceneActivation = true;
+            Scenes.ActivateScene(_asyncLoadPlayScene);
         }
 
         public void StartZombieMode()
         {
             PlayerPrefs.SetInt("zombie", 1);
-            _asyncLoad.allowSceneActivation = true;
+            Scenes.ActivateScene(_asyncLoadPlayScene);
         }
 
         public void SelectControlSystem0()
@@ -330,7 +324,7 @@ namespace _script
 
         public void LoadCarSelection()
         {
-            SceneManager.LoadScene("cars");
+            SceneManager.LoadScene(Scenes.CarSelection);
         }
 
         public void ResetTutorials()

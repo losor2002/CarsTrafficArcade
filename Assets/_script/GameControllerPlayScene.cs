@@ -50,6 +50,8 @@ namespace _script
         [FormerlySerializedAs("resumebutt")] public GameObject resumeButton;
         [FormerlySerializedAs("menubutt")] public GameObject menuButton;
         [FormerlySerializedAs("pausebutt")] public GameObject pauseButton;
+        public GameObject menuPlayAgainButton;
+        public GameObject playAgainText;
         public GameObject[] hazards;
         [FormerlySerializedAs("spawnvalues")] public Vector3[] hazardsSpawnPositions;
         [FormerlySerializedAs("zombieprefab")] public GameObject zombie;
@@ -75,7 +77,8 @@ namespace _script
         private AudioSource _zombieRoar;
         private AudioSource _zombieSound;
         
-        private AsyncOperation _asyncLoad;
+        private AsyncOperation _asyncLoadPlayScene;
+        private bool _canPlayAgain;
 
         private void Start()
         {
@@ -184,19 +187,11 @@ namespace _script
                     _alertBool = true;
                 }
             }
-            
-            AsyncLoadMenu();
-        }
-        
-        private void AsyncLoadMenu()
-        {
-            _asyncLoad = SceneManager.LoadSceneAsync("menu");
-            _asyncLoad.allowSceneActivation = false;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && !gameOver)
+            if (Input.GetKeyDown(KeyCode.Escape) && !gameOver && (_zombieMode == 0 || (_zombieMode == 1 && _alertBool)))
             {
                 Pause();
             }
@@ -309,11 +304,15 @@ namespace _script
 
         private IEnumerator Finish()
         {
+            _asyncLoadPlayScene = Scenes.LoadSceneAsync(Scenes.PlayScene);
             pauseButton.SetActive(false);
             controlArrows.SetActive(false);
             yield return new WaitForSeconds(1.4f);
             _activeAudio.Stop();
-            LoadMenu();
+            gameOverText.text = "";
+            playAgainText.SetActive(true);
+            menuPlayAgainButton.SetActive(true);
+            _canPlayAgain = true;
         }
 
         private void UpdateHighScoreAndCr()
@@ -369,7 +368,18 @@ namespace _script
         {
             Time.timeScale = 1.0f;
             UpdateHighScoreAndCr();
-            _asyncLoad.allowSceneActivation = true;
+            SceneManager.LoadScene(Scenes.Menu);
+        }
+
+        public void PlayAgain()
+        {
+            if (!_canPlayAgain)
+            {
+                return;
+            }
+            
+            UpdateHighScoreAndCr();
+            Scenes.ActivateScene(_asyncLoadPlayScene);
         }
 
         private IEnumerator Tutorial()
@@ -408,8 +418,8 @@ namespace _script
 
         public void Touched()
         {
-            score += 3;
-            touchedText.text = "Touched +3";
+            score += 5;
+            touchedText.text = "Touched +5";
             StartCoroutine(TouchedCoroutine());
         }
 

@@ -15,7 +15,7 @@ namespace _script
         [FormerlySerializedAs("muscletx")] public Text muscleText;
 
         private bool _astonPurchased;
-        private AsyncOperation _asyncLoad;
+        private AsyncOperation _asyncLoadMenu;
         private bool _chevPurchased;
         private int _cr;
         private bool _f1Purchased;
@@ -58,7 +58,7 @@ namespace _script
                 muscleText.text = "";
             }
 
-            AsyncLoadMenu();
+            _asyncLoadMenu = Scenes.LoadSceneAsync(Scenes.Menu);
         }
 
         private void Update()
@@ -69,15 +69,9 @@ namespace _script
             }
         }
 
-        private void AsyncLoadMenu()
-        {
-            _asyncLoad = SceneManager.LoadSceneAsync("menu");
-            _asyncLoad.allowSceneActivation = false;
-        }
-
         public void Back()
         {
-            _asyncLoad.allowSceneActivation = true;
+            Scenes.ActivateScene(_asyncLoadMenu);
         }
 
         public void Lambo1()
