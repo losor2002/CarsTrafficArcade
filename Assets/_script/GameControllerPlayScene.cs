@@ -9,6 +9,7 @@ namespace _script
     public class GameControllerPlayScene : MonoBehaviour
     {
         public int score;
+        public int kills;
         public int scorePerScoreTime;
         public float scoreTime;
         public float startWait;
@@ -72,7 +73,6 @@ namespace _script
         private AudioSource _activeAudio;
         private bool _alertBool;
         private int _controlSystem;
-        private int _kills;
         private int _zombieMode;
         private AudioSource _zombieRoar;
         private AudioSource _zombieSound;
@@ -163,7 +163,7 @@ namespace _script
             }
             
             scoreText.text = "Score: " + score;
-            killsText.text = "";
+            killsText.text = _zombieMode == 0 ? "" : "Kills: 0";
             StartCoroutine(UpdateScore());
             if (_zombieMode == 0)
             {
@@ -194,12 +194,6 @@ namespace _script
             if (Input.GetKeyDown(KeyCode.Escape) && !gameOver && (_zombieMode == 0 || (_zombieMode == 1 && _alertBool)))
             {
                 Pause();
-            }
-
-            if (_zombieMode == 1)
-            {
-                _kills = PlayerPrefs.GetInt("kills", 0);
-                killsText.text = "Kills: " + _kills;
             }
         }
 
@@ -323,7 +317,7 @@ namespace _script
                 PlayerPrefs.SetInt("HighScore", score);
             }
 
-            PlayerPrefs.SetInt("cr", PlayerPrefs.GetInt("cr") + score / 10 + _kills);
+            PlayerPrefs.SetInt("cr", PlayerPrefs.GetInt("cr") + score / 10 + kills);
 
             PlayerPrefs.Save();
         }
@@ -471,6 +465,11 @@ namespace _script
             controlArrows.SetActive(true);
             pauseButton.SetActive(true);
             _alertBool = true;
+        }
+
+        public void ZombieKill()
+        {
+            killsText.text = "Kills: " + ++kills;
         }
     }
 }

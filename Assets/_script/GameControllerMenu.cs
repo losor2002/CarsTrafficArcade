@@ -59,7 +59,6 @@ namespace _script
             _cr = PlayerPrefs.GetInt("cr", 0);
             _highScore = PlayerPrefs.GetInt("HighScore", 0);
             _score = PlayerPrefs.GetInt("CurrentScore", 0);
-            PlayerPrefs.SetInt("kills", 0);
 
             ShowMainMenu();
             RewardCheck();

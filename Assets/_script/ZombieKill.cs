@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace _script
@@ -8,6 +9,12 @@ namespace _script
         [FormerlySerializedAs("zombiecade")] public GameObject fallingZombie;
 
         private bool _hit;
+        private GameControllerPlayScene _gameControllerPlayScene;
+
+        private void Start()
+        {
+            _gameControllerPlayScene = FindAnyObjectByType<GameControllerPlayScene>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -16,7 +23,7 @@ namespace _script
                 if (_hit)
                 {
                     Instantiate(fallingZombie, transform.position, transform.rotation);
-                    PlayerPrefs.SetInt("kills", PlayerPrefs.GetInt("kills", 0) + 1);
+                    _gameControllerPlayScene.ZombieKill();
                     Destroy(gameObject);
                 }
                 else
