@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using CtaScript.GameController;
+using UnityEngine;
 
-namespace _script
+namespace CtaScript.Movement
 {
     public class MoverMultipleSpeeds : MonoBehaviour
     {

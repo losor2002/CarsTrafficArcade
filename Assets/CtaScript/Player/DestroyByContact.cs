@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using CtaScript.GameController;
+using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _script
+namespace CtaScript.Player
 {
     public class DestroyByContact : MonoBehaviour
     {

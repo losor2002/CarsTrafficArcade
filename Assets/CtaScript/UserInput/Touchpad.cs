@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace _script
+namespace CtaScript.UserInput
 {
     public class Touchpad : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
     {

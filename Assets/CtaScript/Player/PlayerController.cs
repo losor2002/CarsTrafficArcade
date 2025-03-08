@@ -1,8 +1,10 @@
 ﻿using System;
+using CtaScript.GameController;
+using CtaScript.UserInput;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _script
+namespace CtaScript.Player
 {
     [Serializable]
     public class Boundary

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _script
+namespace CtaScript.SceneManagement
 {
     public class DestroyByTime : MonoBehaviour
     {

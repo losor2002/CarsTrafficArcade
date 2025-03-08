@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace _script
+namespace CtaScript.SceneManagement
 {
     public static class Scenes
     {

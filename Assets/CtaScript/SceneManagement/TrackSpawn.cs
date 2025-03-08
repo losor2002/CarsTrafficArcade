@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using CtaScript.GameController;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _script
+namespace CtaScript.SceneManagement
 {
     public class TrackSpawn : MonoBehaviour
     {

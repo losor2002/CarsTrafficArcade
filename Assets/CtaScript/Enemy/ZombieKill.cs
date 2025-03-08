@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CtaScript.GameController;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _script
+namespace CtaScript.Enemy
 {
     public class ZombieKill : MonoBehaviour
     {

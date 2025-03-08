@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using CtaScript.GameController;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace _script
+namespace CtaScript.UserInput
 {
     public class VerticalMovementArrow : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

@@ -1,10 +1,11 @@
 ﻿using System.Collections;
+using CtaScript.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace _script
+namespace CtaScript.GameController
 {
     public class GameControllerPlayScene : MonoBehaviour
     {
