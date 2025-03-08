@@ -5,6 +5,8 @@ namespace CtaScript.Movement
 {
     public class MoverMultipleSpeeds : MonoBehaviour
     {
+        private const float TrackEnemyDelta = 10f;
+        
         public float speed;
         public float speed1;
         public float speed2;
@@ -48,7 +50,7 @@ namespace CtaScript.Movement
                 }
                 else
                 {
-                    movement = CompareTag("pista") ? Vector3.zero : Vector3.back * (currentSpeed + _randomIncrement);
+                    movement = CompareTag("pista") ? Vector3.zero : Vector3.forward * (TrackEnemyDelta + _randomIncrement);
                 }
 
                 transform.position += movement * Time.deltaTime;
