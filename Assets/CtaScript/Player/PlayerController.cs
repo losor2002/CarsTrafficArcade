@@ -55,7 +55,12 @@ namespace CtaScript.Player
 
         private void Update()
         {
-            if (_isGunActive && !_gameControllerPlayScene.pause && _fireButton.IsPressed() && Time.time > _nextFireTime)
+            if (_gameControllerPlayScene.pause)
+            {
+                return;
+            }
+            
+            if (_isGunActive && _fireButton.IsPressed() && Time.time > _nextFireTime)
             {
                 _nextFireTime = Time.time + fireRate;
                 Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
