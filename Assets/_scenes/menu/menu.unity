@@ -251,8 +251,8 @@ MonoBehaviour:
   rightArrowsButton: {fileID: 1201425781}
   leftArrowsButton: {fileID: 14961395}
   centerArrowsButton: {fileID: 334485059}
-  highScoreText: {fileID: 1315810618}
-  scoreText: {fileID: 1937825204}
+  classicText: {fileID: 1315810618}
+  zombieText: {fileID: 1937825204}
   crText: {fileID: 313413629}
 --- !u!4 &9963120
 Transform:
@@ -1548,7 +1548,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -1579,7 +1579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -78.08, y: -321.2}
+  m_AnchoredPosition: {x: 3, y: -321.2}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &334485057
@@ -5801,7 +5801,7 @@ GameObject:
   - component: {fileID: 1315810619}
   - component: {fileID: 1315810618}
   m_Layer: 5
-  m_Name: Highscoretx
+  m_Name: ClassicText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5859,7 +5859,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: HighScore
+  m_Text: Classic
 --- !u!222 &1315810619
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8335,7 +8335,7 @@ GameObject:
   - component: {fileID: 1937825205}
   - component: {fileID: 1937825204}
   m_Layer: 5
-  m_Name: scoretx
+  m_Name: ZombieText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8393,7 +8393,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Score
+  m_Text: Zombie
 --- !u!222 &1937825205
 CanvasRenderer:
   m_ObjectHideFlags: 0

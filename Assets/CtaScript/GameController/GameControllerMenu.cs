@@ -10,45 +10,45 @@ namespace CtaScript.GameController
 {
     public class GameControllerMenu : MonoBehaviour
     {
-        [FormerlySerializedAs("PlayButt")] public GameObject playButton;
-        [FormerlySerializedAs("zombiebutt")] public GameObject zombieModeButton;
-        [FormerlySerializedAs("ClassicButt")] public GameObject classicModeButton;
-        [FormerlySerializedAs("menubutton")] public GameObject optionsButton;
-
-        [FormerlySerializedAs("controlsysimg")]
+        public GameObject playButton;
+        public GameObject zombieModeButton;
+        public GameObject classicModeButton;
+        public GameObject optionsButton;
+        
         public GameObject controlSystemSelection;
 
-        [FormerlySerializedAs("sceltafrecce")] public GameObject arrowsSelection;
-        [FormerlySerializedAs("backbutt")] public GameObject backButton;
-        [FormerlySerializedAs("carsbutt")] public GameObject carSelectionButton;
-        [FormerlySerializedAs("tutorialButt")] public GameObject resetTutorialButton;
-        [FormerlySerializedAs("volumeButt")] public GameObject volumeButton;
-        [FormerlySerializedAs("mutoButt")] public GameObject muteButton;
-        [FormerlySerializedAs("tabella")] public GameObject rewardTable;
-        [FormerlySerializedAs("quad1")] public GameObject rewardQuad1;
-        [FormerlySerializedAs("quad2")] public GameObject rewardQuad2;
-        [FormerlySerializedAs("quad3")] public GameObject rewardQuad3;
-        [FormerlySerializedAs("quad4")] public GameObject rewardQuad4;
-        [FormerlySerializedAs("quad5")] public GameObject rewardQuad5;
-        [FormerlySerializedAs("quad6")] public GameObject rewardQuad6;
-        [FormerlySerializedAs("quad7")] public GameObject rewardQuad7;
-        [FormerlySerializedAs("uscita")] public GameObject quitSelection;
+        public GameObject arrowsSelection;
+        public GameObject backButton;
+        public GameObject carSelectionButton;
+        public GameObject resetTutorialButton;
+        public GameObject volumeButton;
+        public GameObject muteButton;
+        public GameObject rewardTable;
+        public GameObject rewardQuad1;
+        public GameObject rewardQuad2;
+        public GameObject rewardQuad3;
+        public GameObject rewardQuad4;
+        public GameObject rewardQuad5;
+        public GameObject rewardQuad6;
+        public GameObject rewardQuad7;
+        public GameObject quitSelection;
 
-        [FormerlySerializedAs("controlsys")] public Button controlSystem0Button;
-        [FormerlySerializedAs("controlsys1")] public Button controlSystem1Button;
-        [FormerlySerializedAs("controlsys2")] public Button controlSystem2Button;
-        [FormerlySerializedAs("frdestra")] public Button rightArrowsButton;
-        [FormerlySerializedAs("frsinistra")] public Button leftArrowsButton;
-        [FormerlySerializedAs("frcentro")] public Button centerArrowsButton;
-        [FormerlySerializedAs("highscoretx")] public Text highScoreText;
-        [FormerlySerializedAs("scoretx")] public Text scoreText;
-        [FormerlySerializedAs("crtx")] public Text crText;
+        public Button controlSystem0Button;
+        public Button controlSystem1Button;
+        public Button controlSystem2Button;
+        public Button rightArrowsButton;
+        public Button leftArrowsButton;
+        public Button centerArrowsButton;
+        public Text classicText;
+        public Text zombieText;
+        public Text crText;
 
         private AsyncOperation _asyncLoadPlayScene;
         private int _cr;
-        private int _highScore;
+        private int _classicHighScore;
         private bool _isInMainMenu;
-        private int _score;
+        private int _zombieHighScore;
+        private int _zombieHighKills;
         private bool _stopRewardQuadBlinking;
 
         private void Start()
@@ -57,9 +57,10 @@ namespace CtaScript.GameController
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
             
-            _cr = PlayerPrefs.GetInt("cr", 0);
-            _highScore = PlayerPrefs.GetInt("HighScore", 0);
-            _score = PlayerPrefs.GetInt("CurrentScore", 0);
+            _cr = PlayerPrefs.GetInt("cr");
+            _classicHighScore = PlayerPrefs.GetInt("HighScore");
+            _zombieHighScore = PlayerPrefs.GetInt("ZombieHighScore");
+            _zombieHighKills = PlayerPrefs.GetInt("ZombieHighKills");
 
             ShowMainMenu();
             RewardCheck();
@@ -467,8 +468,8 @@ namespace CtaScript.GameController
             carSelectionButton.SetActive(true);
             ShowAudioButton();
             _isInMainMenu = true;
-            highScoreText.text = "HighScore: " + _highScore;
-            scoreText.text = "Score: " + _score;
+            classicText.text = "Classic: " + _classicHighScore;
+            zombieText.text = $"Zombie: {_zombieHighScore} + {_zombieHighKills}";
             crText.text = "CR: " + _cr;
         }
 
@@ -479,8 +480,8 @@ namespace CtaScript.GameController
             carSelectionButton.SetActive(false);
             _isInMainMenu = false;
             HideAudioButton();
-            highScoreText.text = "";
-            scoreText.text = "";
+            classicText.text = "";
+            zombieText.text = "";
             crText.text = "";
         }
 

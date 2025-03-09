@@ -312,13 +312,27 @@ namespace CtaScript.GameController
 
         private void UpdateHighScoreAndCr()
         {
-            PlayerPrefs.SetInt("CurrentScore", score);
-            if (score > PlayerPrefs.GetInt("HighScore", 0))
+            if (_zombieMode == 0)
             {
-                PlayerPrefs.SetInt("HighScore", score);
+                if (score > PlayerPrefs.GetInt("HighScore"))
+                {
+                    PlayerPrefs.SetInt("HighScore", score);
+                }
+                
+                PlayerPrefs.SetInt("cr", PlayerPrefs.GetInt("cr") + score / 2);
             }
-
-            PlayerPrefs.SetInt("cr", PlayerPrefs.GetInt("cr") + score / 10 + kills);
+            else
+            {
+                int totalZombieScore = score + kills;
+                int totalZombieHighScore = PlayerPrefs.GetInt("ZombieHighScore") + PlayerPrefs.GetInt("ZombieHighKills");
+                if (totalZombieScore > totalZombieHighScore)
+                {
+                    PlayerPrefs.SetInt("ZombieHighScore", score);
+                    PlayerPrefs.SetInt("ZombieHighKills", kills);
+                }
+                
+                PlayerPrefs.SetInt("cr", PlayerPrefs.GetInt("cr") + score / 4 + kills / 2);
+            }
 
             PlayerPrefs.Save();
         }
