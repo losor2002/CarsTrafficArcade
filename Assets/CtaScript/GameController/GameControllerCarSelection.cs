@@ -7,12 +7,12 @@ namespace CtaScript.GameController
 {
     public class GameControllerCarSelection : MonoBehaviour
     {
-        [FormerlySerializedAs("cr")] public Text crText;
-        [FormerlySerializedAs("astontx")] public Text astonText;
-        [FormerlySerializedAs("chevtx")] public Text chevText;
-        [FormerlySerializedAs("f1tx")] public Text f1Text;
-        [FormerlySerializedAs("sport1tx")] public Text sport1Text;
-        [FormerlySerializedAs("muscletx")] public Text muscleText;
+        public Text crText;
+        public Text astonText;
+        public Text chevText;
+        public Text f1Text;
+        public Text sport1Text;
+        public Text muscleText;
 
         private bool _astonPurchased;
         private AsyncOperation _asyncLoadMenu;

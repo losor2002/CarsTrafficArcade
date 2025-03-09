@@ -7,7 +7,7 @@ namespace CtaScript.Player
     public class DestroyByContact : MonoBehaviour
     {
         public GameObject explosion;
-        [FormerlySerializedAs("zombiecade")] public GameObject fallingZombie;
+        public GameObject fallingZombie;
 
         private GameControllerPlayScene _gameControllerPlayScene;
         private int _zombie;

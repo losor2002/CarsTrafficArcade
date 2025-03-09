@@ -24,7 +24,7 @@ namespace CtaScript.Player
         public GameObject shot;
         public Transform shotSpawn;
         public float fireRate;
-        [FormerlySerializedAs("fiammata")] public ParticleSystem muzzleFlash;
+        public ParticleSystem muzzleFlash;
 
         private Quaternion _accelerometerCalibrationQuaternion;
         private int _controlSystem;

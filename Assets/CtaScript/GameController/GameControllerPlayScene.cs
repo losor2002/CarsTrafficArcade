@@ -14,24 +14,16 @@ namespace CtaScript.GameController
         public int scorePerScoreTime;
         public float scoreTime;
         public float startWait;
-
-        [FormerlySerializedAs("scorespawnacc")]
+        
         public int scoreSpawnAcceleration;
-
-        [FormerlySerializedAs("scorespawnacc1")]
         public int scoreSpawnAcceleration1;
 
-        [FormerlySerializedAs("spawnwait1")] public float spawnWait;
-        [FormerlySerializedAs("spawnwait2")] public float spawnWait1;
-        [FormerlySerializedAs("spawnwait3")] public float spawnWait2;
+        public float spawnWait;
+        public float spawnWait1;
+        public float spawnWait2;
 
-        [FormerlySerializedAs("spawnwaitzombie1")]
         public float spawnWaitZombie;
-
-        [FormerlySerializedAs("spawnwaitzombie2")]
         public float spawnWaitZombie1;
-
-        [FormerlySerializedAs("spawnwaitzombie3")]
         public float spawnWaitZombie2;
 
         public float horizontalPlayerMovement;
@@ -39,37 +31,34 @@ namespace CtaScript.GameController
         public bool gameOver;
         public bool pause;
 
-        [FormerlySerializedAs("avviso")] public GameObject alert;
-        [FormerlySerializedAs("frecce")] public GameObject controlArrows;
-        [FormerlySerializedAs("freccedestra")] public GameObject controlArrowsRight;
-
-        [FormerlySerializedAs("freccesinistra")]
+        public GameObject alert;
+        public GameObject controlArrows;
+        public GameObject controlArrowsRight;
         public GameObject controlArrowsLeft;
-
-        [FormerlySerializedAs("freccecentro")] public GameObject controlArrowsCenter;
-        [FormerlySerializedAs("volumeButt")] public GameObject volumeButton;
-        [FormerlySerializedAs("mutoButt")] public GameObject muteButton;
-        [FormerlySerializedAs("resumebutt")] public GameObject resumeButton;
-        [FormerlySerializedAs("menubutt")] public GameObject menuButton;
-        [FormerlySerializedAs("pausebutt")] public GameObject pauseButton;
+        public GameObject controlArrowsCenter;
+        public GameObject volumeButton;
+        public GameObject muteButton;
+        public GameObject resumeButton;
+        public GameObject menuButton;
+        public GameObject pauseButton;
         public GameObject menuPlayAgainButton;
         public GameObject playAgainText;
+        
         public GameObject[] hazards;
-        [FormerlySerializedAs("spawnvalues")] public Vector3[] hazardsSpawnPositions;
-        [FormerlySerializedAs("zombieprefab")] public GameObject zombie;
-
-        [FormerlySerializedAs("spawnvalueszombie")]
+        public Vector3[] hazardsSpawnPositions;
+        public GameObject zombie;
         public Vector3 zombieSpawnPosition;
 
-        [FormerlySerializedAs("cars")] public GameObject[] playerCars;
-        [FormerlySerializedAs("carSpawn")] public Vector3[] playerCarsSpawnPositions;
-        [FormerlySerializedAs("scoretext")] public Text scoreText;
-        [FormerlySerializedAs("gameovertext")] public Text gameOverText;
-        [FormerlySerializedAs("tutorialtx")] public Text tutorialText;
-        [FormerlySerializedAs("tutorialtxz")] public Text tutorialTextZombieMode;
-        [FormerlySerializedAs("Killtx")] public Text killsText;
-        [FormerlySerializedAs("sfiorare")] public Text touchedText;
-        [FormerlySerializedAs("avvisotx")] public Text alertText;
+        public GameObject[] playerCars;
+        public Vector3[] playerCarsSpawnPositions;
+        
+        public Text scoreText;
+        public Text gameOverText;
+        public Text tutorialText;
+        public Text tutorialTextZombieMode;
+        public Text killsText;
+        public Text touchedText;
+        public Text alertText;
 
         private AudioSource _activeAudio;
         private bool _alertBool;

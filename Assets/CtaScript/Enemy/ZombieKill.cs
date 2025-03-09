@@ -6,7 +6,7 @@ namespace CtaScript.Enemy
 {
     public class ZombieKill : MonoBehaviour
     {
-        [FormerlySerializedAs("zombiecade")] public GameObject fallingZombie;
+        public GameObject fallingZombie;
 
         private bool _hit;
         private GameControllerPlayScene _gameControllerPlayScene;
