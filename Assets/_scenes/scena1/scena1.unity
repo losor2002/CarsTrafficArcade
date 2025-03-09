@@ -3305,7 +3305,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1446354707}
-  - component: {fileID: 1446354708}
   - component: {fileID: 1446354709}
   - component: {fileID: 1446354710}
   - component: {fileID: 1446354711}
@@ -3333,24 +3332,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1446354708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1446354706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed72424d5d0e394faa08daa28a23d09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  track: {fileID: 1311107591897476, guid: 581a269b96cf07b4f83eed59bc6f8317, type: 3}
-  spawnPosition: {x: -0.0148194, y: 0.1697636, z: 27.05}
-  spawnRotation: {x: 0.01592264, y: -0.00029975324, z: 0.018819876, w: 0.999696}
-  spawnInterval: 1.45
-  spawnInterval1: 1.38
-  spawnInterval2: 1.32
 --- !u!114 &1446354709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3364,6 +3345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  kills: 0
   scorePerScoreTime: 1
   scoreTime: 1
   startWait: 0.4
@@ -4054,8 +4036,8 @@ Transform:
   m_GameObject: {fileID: 1548454071}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 4.5}
-  m_LocalScale: {x: 14.2, y: 1, z: 26}
+  m_LocalPosition: {x: 0, y: -0.15, z: 8}
+  m_LocalScale: {x: 14.2, y: 1, z: 37}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
